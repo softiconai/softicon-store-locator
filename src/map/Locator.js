@@ -43,6 +43,8 @@ export default class Locator {
 		const map = L.map( this.box, { zoomControl: false, scrollWheelZoom: false } );
 		this.map = map;
 		L.control.zoom( { zoomInTitle: this.text.zoomIn, zoomOutTitle: this.text.zoomOut } ).addTo( map );
+		// only the credit the map data's license asks for: no "Leaflet" link on the site (WordPress.org guideline 10)
+		map.attributionControl.setPrefix( false );
 		this.cluster = L.markerClusterGroup( { showCoverageOnHover: false, maxClusterRadius: 50, iconCreateFunction: clusterIcon } ).addTo( map );
 		// the editor's draggable marker, outside the clusters
 		this.loose = L.layerGroup().addTo( map );
