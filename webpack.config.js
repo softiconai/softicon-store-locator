@@ -1,11 +1,13 @@
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const { ProvidePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
 // drop the RTL stylesheet copies wp-scripts emits, the styles use logical properties instead
 const plugins = defaultConfig.plugins.filter(p => !(Object.values(p).length === 2 && Object.values(p)?.[1]?.filename === '[name]-rtl.css'));
 
-// css-loader leaves url(./alsl) alone: it is a marker for the build folder (--alsl-build in style.scss), not a file
-const MARKER = /^(\.\/)?alsl$/;
+// css-loader leaves these urls alone: url(./alsl) is a marker for the build folder (--alsl-build in style.scss), not
+// a file; images/ are the pictures of leaflet.css for the default marker and the layers control, which the block never uses
+const MARKER = /^((\.\/)?alsl|images\/.*)$/;
 const rules = defaultConfig.module.rules.map(rule => (Array.isArray(rule.use) ? {
 	...rule,
 	use: rule.use.map(use => (use && use.options && 'importLoaders' in use.options
@@ -34,6 +36,8 @@ module.exports = {
 	},
 	plugins: [
 		...plugins,
+		// leaflet.markercluster adds itself to a global L; it gets the bundled Leaflet instead of window.L
+		new ProvidePlugin({ L: 'leaflet' }),
 		new CopyPlugin({
 			patterns: [
 				{ from: 'node_modules/leaflet/LICENSE', to: 'leaflet-LICENSE.txt' },

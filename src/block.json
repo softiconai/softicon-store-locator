@@ -9,11 +9,31 @@
 	"keywords": [ "store locator", "store finder", "dealer", "map", "location", "branch", "openstreetmap" ],
 	"textdomain": "softicon-store-locator",
 	"attributes": {
-		"stores": { "type": "array", "default": [] }
+		"stores": { "type": "array", "default": [] },
+		"loadOnClick": { "type": "boolean", "default": false },
+		"tileUrl": { "type": "string", "default": "" },
+		"tileCredit": { "type": "string", "default": "" },
+		"search": { "type": "boolean", "default": true },
+		"geocodeSearch": { "type": "boolean", "default": true },
+		"nearMe": { "type": "boolean", "default": true },
+		"units": { "type": "string", "enum": [ "km", "mi" ], "default": "km" },
+		"radius": { "type": "number", "default": 0 },
+		"directions": { "type": "string", "enum": [ "google", "apple", "osm", "" ], "default": "google" },
+		"layout": { "type": "string", "enum": [ "left", "right", "below", "map" ], "default": "left" },
+		"mapHeight": { "type": "number", "default": 480 },
+		"zoom": { "type": "number", "default": 0 },
+		"markerImageUrl": { "type": "string", "default": "" },
+		"markerImageId": { "type": "number", "default": 0 },
+		"markerColor": { "type": "string", "default": "" },
+		"clusterColor": { "type": "string", "default": "" },
+		"buttonBg": { "type": "string", "default": "" },
+		"buttonColor": { "type": "string", "default": "" }
 	},
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ]
+		"align": [ "wide", "full" ],
+		"color": { "background": true, "text": true, "link": true },
+		"typography": { "fontSize": true }
 	},
 	"example": {
 		"attributes": {

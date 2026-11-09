@@ -7,14 +7,20 @@
 	--alsl-build: url(./alsl);
 }
 
+// Leaflet's own styles, and markercluster's animations (its cluster colors are ours, below)
+@import "leaflet/dist/leaflet";
+@import "leaflet.markercluster/dist/MarkerCluster";
+
 // logical properties (inline-start/end) keep the layout right for RTL
 // languages without an -rtl.css copy
 .alsl_locator {
+	container: alsl / inline-size;
 	box-sizing: border-box;
+	// the theme's size, at most 1rem: a store list reads better a little smaller than a long text
+	font-size: min(1em, 1rem);
 	overflow: hidden;
 	border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
 	border-radius: 12px;
-	background: var(--alsl-bg, transparent);
 
 	*,
 	*::before,
@@ -34,6 +40,254 @@
 	list-style: none;
 }
 
+// the map, once view.js shows it: above the list on a narrow block, next to it on a wide one
+.alsl_ready .alsl_inner {
+	display: grid;
+}
+
+.alsl_map {
+	position: relative;
+	// Leaflet's layers stay inside the block, under a theme's sticky header
+	isolation: isolate;
+	height: min(var(--alsl-height, 480px), 70vh);
+	border-bottom: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+	background: rgba(127, 127, 127, 0.12);
+
+	// the theme's font; Leaflet keeps its small size for the buttons and the credit
+	&.leaflet-container {
+		font-family: inherit;
+	}
+
+	// themes style every image; tiles and markers must stay as Leaflet sizes them
+	img {
+		max-width: none !important;
+		margin: 0;
+		border: 0;
+		box-shadow: none;
+	}
+
+	.leaflet-popup-content {
+		margin: 12px 16px;
+		font-size: 0.875rem;
+		line-height: 1.45;
+	}
+}
+
+@container alsl (min-width: 600px) {
+
+	// list on the left (the default) or on the right, next to the map
+	.alsl_ready:is(.alsl_layout_left, .alsl_layout_right) {
+
+		.alsl_inner {
+			grid-template-areas: "list map";
+			grid-template-rows: minmax(0, 1fr);
+			grid-template-columns: minmax(240px, 34%) 1fr;
+			height: var(--alsl-height, 480px);
+		}
+
+		.alsl_map {
+			grid-area: map;
+			height: auto;
+			border-bottom: 0;
+		}
+
+		.alsl_list {
+			grid-area: list;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			border-inline-end: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+		}
+	}
+
+	.alsl_ready.alsl_layout_right {
+
+		.alsl_inner {
+			grid-template-areas: "map list";
+			grid-template-columns: 1fr minmax(240px, 34%);
+		}
+
+		.alsl_list {
+			border-inline-start: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+			border-inline-end: 0;
+		}
+	}
+
+	// the list under the map, as cards side by side
+	.alsl_ready.alsl_layout_below {
+
+		.alsl_map {
+			height: var(--alsl-height, 480px);
+		}
+
+		.alsl_list {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		}
+
+		.alsl_store + .alsl_store {
+			border-top: 0;
+		}
+
+		.alsl_store {
+			border-bottom: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+		}
+	}
+}
+
+// the map only: the list stays in the page for search engines and visitors without JavaScript,
+// the map's popups show each store
+.alsl_ready.alsl_layout_map {
+
+	.alsl_list {
+		display: none;
+	}
+
+	.alsl_map {
+		height: var(--alsl-height, 480px);
+		border-bottom: 0;
+	}
+}
+
+// the block's button colors, only when set (the theme's otherwise)
+.alsl_button_bg :is(.alsl_go, .alsl_load) {
+	background: var(--alsl-button-bg);
+}
+
+.alsl_button_color :is(.alsl_go, .alsl_load) {
+	color: var(--alsl-button-color);
+}
+
+// the search above the map and list (built by src/map/search.js)
+.alsl_search {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	padding: 12px;
+	border-bottom: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+
+	.alsl_query {
+		flex: 1 1 14em;
+		min-width: 0;
+		min-height: 44px;
+		padding: 8px 12px;
+		border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.3));
+		border-radius: 6px;
+		background: transparent;
+		color: inherit;
+		// 16px: iPhones do not zoom into the page
+		font-size: 16px;
+		font-family: inherit;
+	}
+
+	.wp-element-button {
+		min-height: 44px;
+		padding: 8px 16px;
+		font-size: 1rem;
+		white-space: nowrap;
+	}
+
+	.alsl_near {
+		border: 1px solid currentcolor;
+		background: transparent;
+		color: inherit;
+	}
+
+	.alsl_radius {
+		min-height: 44px;
+		padding: 8px;
+		border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.3));
+		border-radius: 6px;
+		background-color: transparent;
+		color: inherit;
+		font-size: 16px;
+		font-family: inherit;
+	}
+
+	[hidden] {
+		display: none;
+	}
+}
+
+.alsl_result {
+	display: flex;
+	flex: 1 1 100%;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 12px;
+	font-size: 0.9375em;
+}
+
+.alsl_status {
+	margin: 0;
+}
+
+.alsl_all {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.alsl_distance {
+	align-self: flex-start;
+	padding: 1px 8px;
+	border-radius: 999px;
+	background: rgba(127, 127, 127, 0.16);
+	font-size: 0.8125em;
+	font-weight: 600;
+}
+
+// "Load the map on click"
+.alsl_consent {
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 12px;
+	height: 100%;
+	padding: 24px;
+	text-align: center;
+
+	p {
+		max-width: 28em;
+		margin: 0;
+		font-size: 0.9375em;
+	}
+}
+
+.alsl_marker {
+	color: var(--alsl-marker, #d63638);
+
+	svg {
+		display: block;
+		width: 32px;
+		height: 42px;
+		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+	}
+}
+
+.alsl_marker_image img {
+	display: block;
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+	object-position: bottom;
+}
+
+.alsl_cluster {
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--alsl-cluster, #1d4ed8);
+	box-shadow: 0 0 0 5px rgba(29, 78, 216, 0.25);
+	box-shadow: 0 0 0 5px color-mix(in srgb, var(--alsl-cluster, #1d4ed8) 25%, transparent);
+	color: #fff;
+	font-weight: 700;
+}
+
 .alsl_store {
 	display: flex;
 	gap: 12px 16px;
@@ -42,6 +296,20 @@
 
 	& + & {
 		border-top: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+	}
+
+	// view.js makes the stores on the map clickable
+	&[tabindex] {
+		cursor: pointer;
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: -2px;
+	}
+
+	&.alsl_active {
+		background: rgba(127, 127, 127, 0.12);
 	}
 }
 

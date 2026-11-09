@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T10:43:54+00:00\n"
+"POT-Creation-Date: 2026-11-09T15:53:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-store-locator\n"
@@ -34,59 +34,669 @@ msgstr ""
 msgid "https://profiles.wordpress.org/softiconai/"
 msgstr ""
 
-#: build/render.php:56
-#: build/index.js:7
+#: build/render.php:59
+#: build/index.js:2
+#: build/index.js:23
+#: build/index.js:32
 msgid "Website"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:2
+#, js-format
+msgid "%s color"
+msgstr ""
+
+#: build/index.js:2
 msgid "(opens in a new tab)"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:2
+#: build/index.js:23
+msgid "Name"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Address"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Town or city"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Postcode"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Country"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Phone"
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Email"
+msgstr ""
+
+#: build/index.js:2
+msgid "All stores"
+msgstr ""
+
+#: build/index.js:2
+msgid "Not shown on the page: this is not a valid address."
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Opening hours"
+msgstr ""
+
+#: build/index.js:2
+msgid "Shown as written, one line per row. For example: Mon–Fri 9:00–18:00"
+msgstr ""
+
+#: build/index.js:2
+msgid "Place on the map"
+msgstr ""
+
+#: build/index.js:2
+msgid "Finding…"
+msgstr ""
+
+#: build/index.js:2
+msgid "Find on map"
+msgstr ""
+
+#: build/index.js:2
+msgid "Fill in the address first."
+msgstr ""
+
+#. translators: %s: the town the map service found
+#: build/index.js:5
+#, js-format
+msgid "The street was not found, so the pin is in the town: %s. Drag it into place on the map."
+msgstr ""
+
+#. translators: %s: the place the map service found
+#: build/index.js:8
+#, js-format
+msgid "Found: %s"
+msgstr ""
+
+#: build/index.js:8
+msgid "This address was not found. Check it, or click the map where the store is."
+msgstr ""
+
+#: build/index.js:8
+msgid "The map service did not answer. Try again in a moment."
+msgstr ""
+
+#: build/index.js:8
+#: build/index.js:23
+msgid "Latitude"
+msgstr ""
+
+#: build/index.js:8
+#: build/index.js:23
+msgid "Longitude"
+msgstr ""
+
+#: build/index.js:8
+msgid "Drag the orange pin on the map to move the store."
+msgstr ""
+
+#: build/index.js:8
+msgid "Not on the map yet: find the address, or click the map where the store is."
+msgstr ""
+
+#: build/index.js:8
+msgid "Image"
+msgstr ""
+
+#: build/index.js:8
+msgid "Replace image"
+msgstr ""
+
+#: build/index.js:8
+msgid "Choose image"
+msgstr ""
+
+#: build/index.js:8
+msgid "Remove image"
+msgstr ""
+
+#: build/index.js:8
+msgid "Delete store"
+msgstr ""
+
+#. translators: 1: the store being looked for now, 2: all the stores to look for
+#: build/index.js:11
+#, js-format
+msgid "Finding places: %1$d of %2$d…"
+msgstr ""
+
+#: build/index.js:11
+msgid "Stop"
+msgstr ""
+
+#. translators: %d: number of stores without a place on the map
+#: build/index.js:14
+#, js-format
+msgid "Find the place of %d store"
+msgid_plural "Find the places of %d stores"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: about how many minutes the search takes
+#: build/index.js:17
+#, js-format
+msgid "About one store a second (the map service’s limit): up to %d min."
+msgstr ""
+
+#. translators: %d: number of stores whose address was not found
+#: build/index.js:20
+#, js-format
+msgid "%d address was not found. Open the store to fix it, or click the map where it is."
+msgid_plural "%d addresses were not found. Open each store to fix it, or click the map where it is."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of stores found without their postcode
+#: build/index.js:23
+#, js-format
+msgid "%d store was found without its postcode, so its pin may be on the wrong street. It is marked in the list: check it on the map."
+msgid_plural "%d stores were found without their postcode, so their pins may be on the wrong street. They are marked in the list: check them on the map."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/index.js:23
 msgid "Get support"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:23
 msgid "Rate Store Locator"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:23
 msgid "More plugins"
 msgstr ""
 
-#: build/index.js:1
+#. translators: %s: a distance number
+#: build/index.js:23
+#: build/view.js:5
+#, js-format
+msgid "%s mi"
+msgstr ""
+
+#. translators: %s: a distance number
+#: build/index.js:23
+#: build/view.js:3
+#, js-format
+msgid "%s km"
+msgstr ""
+
+#: build/index.js:23
+msgid "Image address"
+msgstr ""
+
+#: build/index.js:23
+#: build/index.js:38
+msgid "Add store"
+msgstr ""
+
+#: build/index.js:23
+#: build/index.js:38
+msgid "Import CSV"
+msgstr ""
+
+#: build/index.js:23
+msgid "Export CSV"
+msgstr ""
+
+#. translators: %d: the most stores one block can hold
+#: build/index.js:26
+#, js-format
+msgid "A block holds up to %d stores. Add another Store Locator block for more."
+msgstr ""
+
+#: build/index.js:26
+msgid "Search the stores"
+msgstr ""
+
+#: build/index.js:26
+msgid "(no name)"
+msgstr ""
+
+#: build/index.js:26
+msgid "Not on the map"
+msgstr ""
+
+#: build/index.js:26
+msgid "Check the pin"
+msgstr ""
+
+#: build/index.js:26
+msgid "Move up"
+msgstr ""
+
+#: build/index.js:26
+msgid "Move down"
+msgstr ""
+
+#. translators: %d: number of stores not listed
+#: build/index.js:29
+#, js-format
+msgid "%d more store: search to find it."
+msgid_plural "%d more stores: search to find them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/index.js:29
+msgid "No store matches."
+msgstr ""
+
+#: build/index.js:29
+msgid "Add your stores one by one, or import them from a CSV file (for example saved from Excel or Google Sheets)."
+msgstr ""
+
+#: build/index.js:29
 msgid "Help"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:29
 msgid "Email:"
 msgstr ""
 
-#: build/index.js:1
+#: build/index.js:29
 msgid "Stores"
 msgstr ""
 
 #. translators: 1: number of stores, 2: how many of them have a place on the map
-#: build/index.js:4
+#: build/index.js:32
 #, js-format
 msgid "%1$d store, %2$d on the map."
 msgid_plural "%1$d stores, %2$d on the map."
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %d: the most stores one block can hold
-#: build/index.js:7
-#, js-format
-msgid "A block holds up to %d stores."
+#: build/index.js:32
+msgid "Map"
 msgstr ""
 
-#: build/index.js:7
+#: build/index.js:32
+msgid "Load the map on click"
+msgstr ""
+
+#: build/index.js:32
+msgid "Visitors first see a Show map button, and nothing is loaded from the map server before they click it. Helps with privacy laws such as the GDPR. The editor always shows the map."
+msgstr ""
+
+#: build/index.js:32
+msgid "Show all stores at first"
+msgstr ""
+
+#: build/index.js:32
+msgid "The map opens zoomed to fit every store. Off: it opens at the zoom you choose, centred on the stores."
+msgstr ""
+
+#: build/index.js:32
+msgid "Starting zoom"
+msgstr ""
+
+#: build/index.js:32
+msgid "2 shows the world, 10 a region, 14 a town, 18 a street."
+msgstr ""
+
+#: build/index.js:32
+msgid "Tile server"
+msgstr ""
+
+#: build/index.js:32
+msgid "Leave empty for OpenStreetMap. Or the https address of another tile server, with {z}, {x} and {y} in it."
+msgstr ""
+
+#: build/index.js:32
+msgid "This is not a tile address, so the map uses OpenStreetMap. It must start with https:// and contain {z}, {x} and {y}."
+msgstr ""
+
+#: build/index.js:32
+msgid "Map credit"
+msgstr ""
+
+#: build/index.js:32
+msgid "The credit the tile server asks for, shown in the corner of the map after the OpenStreetMap credit."
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
+msgid "Search"
+msgstr ""
+
+#: build/index.js:32
+msgid "Search box"
+msgstr ""
+
+#: build/index.js:32
+msgid "Visitors type a town, postcode or store name. Stores in your list are matched at once, without asking any service."
+msgstr ""
+
+#: build/index.js:32
+msgid "Look up other places"
+msgstr ""
+
+#: build/index.js:32
+msgid "When nothing in your list matches, the place is looked up on OpenStreetMap (Nominatim) and the stores are sorted by distance from it. Only what the visitor typed is sent, when they press Search."
+msgstr ""
+
+#: build/index.js:32
+msgid "Near me button"
+msgstr ""
+
+#: build/index.js:32
+msgid "Sorts the stores by distance from the visitor, with the location their browser gives. The location stays in the browser. Shown only on https sites."
+msgstr ""
+
+#: build/index.js:32
+msgid "Distance unit"
+msgstr ""
+
+#: build/index.js:32
+msgid "Kilometres"
+msgstr ""
+
+#: build/index.js:32
+msgid "Miles"
+msgstr ""
+
+#: build/index.js:32
+msgid "Search radius"
+msgstr ""
+
+#: build/index.js:32
+msgid "The first choice; visitors can change it. When no store is within it, the nearest three are shown."
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
+msgid "Any distance"
+msgstr ""
+
+#: build/index.js:32
+msgid "Directions link"
+msgstr ""
+
+#: build/index.js:32
+msgid "A link under each store on the map that opens the route there. Only a link: nothing is loaded from these services."
+msgstr ""
+
+#: build/index.js:32
+msgid "None"
+msgstr ""
+
+#: build/index.js:32
+msgid "Layout and size"
+msgstr ""
+
+#: build/index.js:32
+msgid "Layout"
+msgstr ""
+
+#: build/index.js:32
+msgid "On a phone or in a narrow column the map is always above the list. With Map only, the list stays in the page for search engines, and each store shows when its pin is clicked."
+msgstr ""
+
+#: build/index.js:32
+msgid "List left"
+msgstr ""
+
+#: build/index.js:32
+msgid "List right"
+msgstr ""
+
+#: build/index.js:32
+msgid "List below"
+msgstr ""
+
+#: build/index.js:32
+msgid "Map only"
+msgstr ""
+
+#: build/index.js:32
+msgid "Map height (px)"
+msgstr ""
+
+#: build/index.js:32
+msgid "With the list beside the map, the list scrolls within this height. On phones the map is at most 70% of the screen."
+msgstr ""
+
+#: build/index.js:32
+msgid "Use Wide or Full width in the block toolbar for a larger map."
+msgstr ""
+
+#: build/index.js:32
+msgid "Colors and marker"
+msgstr ""
+
+#: build/index.js:32
+msgid "Marker"
+msgstr ""
+
+#: build/index.js:32
+msgid "Groups of markers"
+msgstr ""
+
+#: build/index.js:32
+msgid "Button"
+msgstr ""
+
+#: build/index.js:32
+msgid "Button text"
+msgstr ""
+
+#: build/index.js:32
+msgid "The background, text and link colors and the text size are in WordPress’s own panels further down."
+msgstr ""
+
+#: build/index.js:32
+msgid "Marker picture"
+msgstr ""
+
+#: build/index.js:32
+msgid "Replace picture"
+msgstr ""
+
+#: build/index.js:32
+msgid "Choose picture"
+msgstr ""
+
+#: build/index.js:32
+msgid "Use the pin again"
+msgstr ""
+
+#: build/index.js:32
+msgid "Your logo or an icon instead of the pin, shown up to 40 × 40 px, standing on its bottom edge. A PNG or SVG with a see-through background looks best."
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
+msgid "Directions"
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
+msgid "Town, postcode or store name"
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
+msgid "Near me"
+msgstr ""
+
+#: build/index.js:32
+msgid "Import stores from CSV"
+msgstr ""
+
+#: build/index.js:32
+msgid "Pick a CSV file with one store per row and the column names in the first row, such as name, address, city, postcode, country, phone, email, website, hours, lat and lng."
+msgstr ""
+
+#: build/index.js:32
+msgid "This file could not be read as CSV. Save the sheet as \"CSV UTF-8\" and try again; the first row must hold the column names."
+msgstr ""
+
+#: build/index.js:32
+msgid "Choose another file"
+msgstr ""
+
+#: build/index.js:32
+msgid "Choose CSV file"
+msgstr ""
+
+#: build/index.js:32
+msgid "Which column holds what. Columns with these names were matched already."
+msgstr ""
+
+#: build/index.js:32
+msgid "— not in the file —"
+msgstr ""
+
+#: build/index.js:32
+msgid "The stores already in the block"
+msgstr ""
+
+#: build/index.js:32
+msgid "Keep them and add these"
+msgstr ""
+
+#: build/index.js:32
+msgid "Replace them with these"
+msgstr ""
+
+#: build/index.js:32
+msgid "Choose the column for the name, the address or the town."
+msgstr ""
+
+#. translators: 1: number of stores to import, 2: how many of them have a place on the map
+#: build/index.js:35
+#, js-format
+msgid "%1$d store will be imported, %2$d with a place on the map."
+msgid_plural "%1$d stores will be imported, %2$d with a place on the map."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/index.js:35
+msgid "For the others, use \"Find the places\" after the import."
+msgstr ""
+
+#. translators: 1: number of rows left out, 2: the most stores one block can hold
+#: build/index.js:38
+#, js-format
+msgid "%1$d rows are left out: a block holds up to %2$d stores."
+msgstr ""
+
+#: build/index.js:38
+msgid "Cancel"
+msgstr ""
+
+#: build/index.js:38
+msgid "Import"
+msgstr ""
+
+#: build/index.js:38
 msgid "Store Locator"
 msgstr ""
 
-#: build/index.js:7
-msgid "No stores yet. The page leaves the block out until it has at least one store."
+#: build/index.js:38
+msgid "Add your stores one by one, or import them from a CSV file. The map uses OpenStreetMap, no API key needed."
+msgstr ""
+
+#: build/view.js:1
+msgid "Show map"
+msgstr ""
+
+#: build/view.js:1
+msgid "The map is loaded from OpenStreetMap, which then receives your IP address."
+msgstr ""
+
+#: build/view.js:1
+msgid "Zoom in"
+msgstr ""
+
+#: build/view.js:1
+msgid "Zoom out"
+msgstr ""
+
+#: build/view.js:1
+msgid "Find a store"
+msgstr ""
+
+#: build/view.js:1
+msgid "Show all"
+msgstr ""
+
+#: build/view.js:1
+msgid "Distance"
+msgstr ""
+
+#: build/view.js:1
+msgid "Searching…"
+msgstr ""
+
+#: build/view.js:1
+msgid "Finding your location…"
+msgstr ""
+
+#: build/view.js:1
+msgid "your location"
+msgstr ""
+
+#: build/view.js:1
+msgid "Your location could not be found. Type your town or postcode instead."
+msgstr ""
+
+#: build/view.js:1
+msgid "The search did not work. Try again in a moment."
+msgstr ""
+
+#. translators: 1: number of stores, 2: what the visitor searched for
+#: build/view.js:7
+#, js-format
+msgid "%1$d store matches “%2$s”."
+msgid_plural "%1$d stores match “%2$s”."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: number of stores, 2: a distance like "25 km", 3: a place, or "your location"
+#: build/view.js:9
+#, js-format
+msgid "%1$d store within %2$s of %3$s."
+msgid_plural "%1$d stores within %2$s of %3$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a place, or "your location"
+#: build/view.js:11
+#, js-format
+msgid "Stores nearest to %s."
+msgstr ""
+
+#. translators: 1: a distance like "25 km", 2: a place, or "your location"
+#: build/view.js:13
+#, js-format
+msgid "No store within %1$s of %2$s. The nearest ones are shown."
+msgstr ""
+
+#. translators: %s: what the visitor searched for
+#: build/view.js:15
+#, js-format
+msgid "Nothing was found for “%s”."
 msgstr ""
 
 #: build/block.json

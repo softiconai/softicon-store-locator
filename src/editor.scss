@@ -15,3 +15,196 @@
 		cursor: default;
 	}
 }
+
+// the store being edited on the editor's map, and placing a store with a click
+.alsl_marker_edit {
+	color: #f59e0b;
+
+	svg {
+		transform: scale(1.15);
+		transform-origin: 50% 100%;
+	}
+}
+
+.alsl_placing,
+.alsl_placing .leaflet-grab,
+.alsl_placing .leaflet-interactive {
+	cursor: crosshair;
+}
+
+// the store list in the sidebar
+.alslStores,
+.alslForm {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.alslActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.alslRows {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	list-style: none;
+}
+
+.alslRow {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	margin: 0;
+	padding-inline-end: 4px;
+
+	& + & {
+		border-top: 1px solid #f0f0f0;
+	}
+}
+
+.alslRowMain {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	padding: 8px 10px;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+
+	&:hover {
+		background: #f6f7f7;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--wp-admin-theme-color);
+		outline-offset: -2px;
+	}
+}
+
+.alslRowName,
+.alslRowCity {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.alslRowName {
+	font-weight: 500;
+}
+
+.alslRowCity {
+	color: #757575;
+	font-size: 12px;
+}
+
+.alslRowFlag {
+	display: inline-flex;
+	color: #b26200;
+
+	&.is-check {
+		color: #2271b1;
+	}
+
+	svg {
+		width: 18px;
+		height: 18px;
+		fill: currentcolor;
+	}
+}
+
+.alslBack {
+	align-self: flex-start;
+}
+
+.alslLabel {
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.alslPlace,
+.alslImage {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+
+	.components-notice {
+		margin: 0;
+	}
+}
+
+.alslCoords {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	width: 100%;
+}
+
+.alslImage img {
+	max-width: 100%;
+	max-height: 120px;
+	border-radius: 4px;
+}
+
+.alslDelete {
+	align-self: flex-start;
+}
+
+.alslBatch {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+
+	progress {
+		width: 100%;
+	}
+}
+
+// the CSV import
+.alslImport {
+
+	.alslColumns {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 12px;
+		margin: 12px 0 16px;
+	}
+
+	.alslImportTitle {
+		margin: 20px 0 4px;
+		font-size: 14px;
+	}
+
+	.alslSummary {
+		font-weight: 500;
+	}
+
+	.alslImportButtons {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+		margin-top: 16px;
+	}
+}
+
+// the search preview does nothing in the editor
+.wp-block-softicon-store-locator .alsl_search {
+	pointer-events: none;
+}
+
+.alslMarkerPreview {
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+}
