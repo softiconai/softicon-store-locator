@@ -22,7 +22,7 @@ const LayoutPanel = ( { attributes, setAttributes } ) => {
 		/>
 		<RangeControl
 			label={ __( 'Map height (px)', 'softicon-store-locator' ) }
-			help={ __( 'With the list beside the map, the list scrolls within this height. On phones the map is at most 70% of the screen.', 'softicon-store-locator' ) }
+			help={ __( 'With the list beside the map, the list scrolls within this height. The map is never taller than 70% of the screen, so phones can still scroll the page.', 'softicon-store-locator' ) }
 			value={ heightOf( mapHeight ) }
 			min={ 240 }
 			max={ 900 }

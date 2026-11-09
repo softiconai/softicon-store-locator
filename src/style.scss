@@ -82,7 +82,7 @@
 			grid-template-areas: "list map";
 			grid-template-rows: minmax(0, 1fr);
 			grid-template-columns: minmax(240px, 34%) 1fr;
-			height: var(--alsl-height, 480px);
+			height: min(var(--alsl-height, 480px), 70vh);
 		}
 
 		.alsl_map {
@@ -116,7 +116,7 @@
 	.alsl_ready.alsl_layout_below {
 
 		.alsl_map {
-			height: var(--alsl-height, 480px);
+			height: min(var(--alsl-height, 480px), 70vh);
 		}
 
 		.alsl_list {
@@ -143,7 +143,7 @@
 	}
 
 	.alsl_map {
-		height: var(--alsl-height, 480px);
+		height: min(var(--alsl-height, 480px), 70vh);
 		border-bottom: 0;
 	}
 }

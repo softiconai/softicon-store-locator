@@ -29,27 +29,30 @@ const SearchPanel = ( { attributes, setAttributes } ) => {
 				checked={ nearMe }
 				onChange={ set( 'nearMe' ) }
 			/>
-			<SelectControl
-				label={ __( 'Distance unit', 'softicon-store-locator' ) }
-				value={ units }
-				options={ [
-					{ value: 'km', label: __( 'Kilometres', 'softicon-store-locator' ) },
-					{ value: 'mi', label: __( 'Miles', 'softicon-store-locator' ) },
-				] }
-				onChange={ set( 'units' ) }
-				__nextHasNoMarginBottom
-				__next40pxDefaultSize
-			/>
-			<SelectControl
-				label={ __( 'Search radius', 'softicon-store-locator' ) }
-				help={ __( 'The first choice; visitors can change it. When no store is within it, the nearest three are shown.', 'softicon-store-locator' ) }
-				value={ String( radius > 0 ? radius : 0 ) }
-				// the list's choices, and the block's own if it is another
-				options={ [ ...new Set( [ ...radii, radius > 0 ? radius : 0 ] ) ].sort( ( a, b ) => a - b ).map( ( r ) => ( { value: String( r ), label: r ? unit( r ) : __( 'Any distance', 'softicon-store-locator' ) } ) ) }
-				onChange={ ( value ) => setAttributes( { radius: Number( value ) } ) }
-				__nextHasNoMarginBottom
-				__next40pxDefaultSize
-			/>
+			{ nearMe && ! window.isSecureContext && <p className="alslHelp">{ __( 'This site is not on https, so visitors will not see the Near me button.', 'softicon-store-locator' ) }</p> }
+			{ ( geocodeSearch || nearMe ) && <>
+				<SelectControl
+					label={ __( 'Distance unit', 'softicon-store-locator' ) }
+					value={ units }
+					options={ [
+						{ value: 'km', label: __( 'Kilometres', 'softicon-store-locator' ) },
+						{ value: 'mi', label: __( 'Miles', 'softicon-store-locator' ) },
+					] }
+					onChange={ set( 'units' ) }
+					__nextHasNoMarginBottom
+					__next40pxDefaultSize
+				/>
+				<SelectControl
+					label={ __( 'Search radius', 'softicon-store-locator' ) }
+					help={ __( 'The first choice; visitors can change it. When no store is within it, the nearest three are shown.', 'softicon-store-locator' ) }
+					value={ String( radius > 0 ? radius : 0 ) }
+					// the list's choices, and the block's own if it is another
+					options={ [ ...new Set( [ ...radii, radius > 0 ? radius : 0 ] ) ].sort( ( a, b ) => a - b ).map( ( r ) => ( { value: String( r ), label: r ? unit( r ) : __( 'Any distance', 'softicon-store-locator' ) } ) ) }
+					onChange={ ( value ) => setAttributes( { radius: Number( value ) } ) }
+					__nextHasNoMarginBottom
+					__next40pxDefaultSize
+				/>
+			</> }
 		</> }
 		<SelectControl
 			label={ __( 'Directions link', 'softicon-store-locator' ) }

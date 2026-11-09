@@ -31,11 +31,15 @@ export default class Finder {
 		input.setAttribute( 'enterkeyhint', 'search' );
 		const button = ( label, cls, type = 'button' ) => Object.assign( document.createElement( 'button' ), { type, className: cls + ' wp-element-button', textContent: label } );
 		const parts = [ input, button( t.search, 'alsl_go', 'submit' ) ];
+		// distances need stores with a place: without one, only the list is searched
+		const placed = this.items.some( ( item ) => item.dataset.lat && item.dataset.lng );
+		this.geo = !! this.config.geo && placed;
 		// the browser asks the visitor; it works only on https
-		if ( this.config.near && window.isSecureContext && navigator.geolocation ) {
-			const near = button( t.nearMe, 'alsl_near' );
-			near.addEventListener( 'click', () => this.nearMe() );
-			parts.push( near );
+		const near = !! this.config.near && placed && window.isSecureContext && !! navigator.geolocation;
+		if ( near ) {
+			const nearButton = button( t.nearMe, 'alsl_near' );
+			nearButton.addEventListener( 'click', () => this.nearMe() );
+			parts.push( nearButton );
 		}
 		const radius = document.createElement( 'select' );
 		radius.className = 'alsl_radius';
@@ -47,7 +51,10 @@ export default class Finder {
 				this.sortFrom( this.origin );
 			}
 		} );
-		parts.push( radius );
+		// the radius counts only from a place found or the visitor's location
+		if ( this.geo || near ) {
+			parts.push( radius );
+		}
 		// the result line: what is shown, and "Show all" to go back
 		this.result = document.createElement( 'div' );
 		this.result.className = 'alsl_result';
@@ -109,9 +116,15 @@ export default class Finder {
 			const hay = fold( item.querySelector( '.alsl_info' )?.textContent || '' );
 			return words.every( ( word ) => hay.includes( word ) ) || ( compact.length > 2 && squash( hay ).includes( compact ) );
 		} );
-		if ( matches.length || ! this.config.geo ) {
+		if ( matches.length ) {
 			this.show( matches );
-			this.say( matches.length ? this.text.matches( matches.length, query ) : this.text.notFound( query ) );
+			this.say( this.text.matches( matches.length, query ) );
+			return;
+		}
+		// nothing in the list and no place lookup: every store stays, with the message
+		if ( ! this.geo ) {
+			this.showAll();
+			this.say( this.text.notFound( query ) );
 			return;
 		}
 		this.say( this.text.searching );

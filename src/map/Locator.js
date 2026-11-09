@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import 'leaflet.markercluster';
-import { tilesOf } from './tiles';
+import { isTileUrl, tilesOf } from './tiles';
 import { markerOf, zoomOf } from '../utils/look';
 
 // Leaflet puts itself on window.L: give back the Leaflet a theme or another plugin may have there
@@ -65,7 +65,8 @@ export default class Locator {
 
 	tiles( config ) {
 		const url = tilesOf( config.tiles );
-		const credit = OSM + ( config.credit ? ' | ' + escape( config.credit ) : '' );
+		// the block's credit is for its own tile server, not for OpenStreetMap's
+		const credit = OSM + ( config.credit && isTileUrl( config.tiles ) ? ' | ' + escape( config.credit ) : '' );
 		if ( this.layer && this.layer.url === url && this.layer.credit === credit ) {
 			return;
 		}
@@ -155,8 +156,10 @@ export default class Locator {
 		} else if ( ! stores.length ) {
 			this.map.setView( [ 20, 0 ], 2 );
 		} else if ( zoomOf( this.config.look ) ) {
-			// a fixed zoom, around the middle of the stores
-			this.map.setView( L.latLngBounds( stores.map( ( s ) => [ s.lat, s.lng ] ) ).getCenter(), zoomOf( this.config.look ) );
+			// a fixed zoom, on the store nearest the middle of them all, so a pin is always in view
+			const middle = L.latLngBounds( stores.map( ( s ) => [ s.lat, s.lng ] ) ).getCenter();
+			const near = stores.reduce( ( best, s ) => ( middle.distanceTo( [ s.lat, s.lng ] ) < middle.distanceTo( [ best.lat, best.lng ] ) ? s : best ) );
+			this.map.setView( [ near.lat, near.lng ], zoomOf( this.config.look ) );
 		} else if ( 1 === stores.length ) {
 			this.map.setView( [ stores[ 0 ].lat, stores[ 0 ].lng ], 15 );
 		} else {

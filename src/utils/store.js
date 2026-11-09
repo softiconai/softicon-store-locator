@@ -52,16 +52,16 @@ export const cleanStore = ( raw, index ) => {
 	}
 	// the id as sanitize_key() keeps it
 	const store = { id: text( raw.id ).toLowerCase().replace( /[^a-z0-9_-]/g, '' ).slice( 0, 40 ) || 's' + index };
-	// the lengths PHP keeps
+	// as sanitize_text_field() leaves them (no %xx codes, single spaces), at the length PHP keeps
 	textFields.forEach( ( key ) => {
-		store[ key ] = [ ...text( raw[ key ] ) ].slice( 0, 200 ).join( '' );
+		store[ key ] = [ ...text( raw[ key ] ).replace( /%[a-f0-9]{2}/gi, '' ).replace( /\s+/g, ' ' ).trim() ].slice( 0, 200 ).join( '' );
 	} );
 	Object.assign( store, {
 		phone: text( raw.phone ).replace( /[^0-9+\-().\/\s]/g, '' ).trim().slice( 0, 40 ),
 		// what is_email() takes: ASCII only
 		email: /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test( text( raw.email ) ) ? text( raw.email ) : '',
 		website: link( raw.website ),
-		hours: [ ...text( raw.hours ) ].slice( 0, 500 ).join( '' ),
+		hours: [ ...text( raw.hours ).replace( /%[a-f0-9]{2}/gi, '' ) ].slice( 0, 500 ).join( '' ),
 		image: link( raw.imageUrl ),
 		lat: coord( raw.lat, 90 ),
 		lng: coord( raw.lng, 180 ),
