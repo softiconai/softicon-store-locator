@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "softicon/store-locator",
+	"version": "1.0.0",
+	"title": "Store Locator",
+	"category": "widgets",
+	"description": "A list of your stores with a map. Visitors find the nearest one by town, postcode or their location. No Google Maps API key.",
+	"keywords": [ "store locator", "store finder", "dealer", "map", "location", "branch", "openstreetmap" ],
+	"textdomain": "softicon-store-locator",
+	"attributes": {
+		"stores": { "type": "array", "default": [] }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"example": {
+		"attributes": {
+			"stores": [
+				{ "id": "s1", "name": "Riverside Store", "address": "12 Market Street", "city": "Bristol", "postcode": "BS1 1JQ", "country": "United Kingdom", "phone": "+44 117 000 0000", "lat": 51.4545, "lng": -2.5879 },
+				{ "id": "s2", "name": "Old Town Store", "address": "4 High Street", "city": "Bath", "postcode": "BA1 5AW", "country": "United Kingdom", "phone": "+44 1225 000 000", "lat": 51.3811, "lng": -2.359 }
+			]
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

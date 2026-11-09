@@ -1,0 +1,17 @@
+// block settings panels shared by SoftIcon blocks
+// (copied from ../softicon-tools by npm run tools)
+@import "./vendor/softicon-tools/styles/panels";
+
+.alslHelp {
+	margin: 0;
+	color: #757575;
+	font-size: 12px;
+}
+
+// the block in the editor
+.wp-block-softicon-store-locator {
+
+	.alsl_links a {
+		cursor: default;
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"name": "softicon-store-locator",
+	"version": "1.0.0",
+	"description": "Store locator block for WordPress: a store list and an OpenStreetMap map, no Google Maps API key",
+	"main": "build/index.js",
+	"scripts": {
+		"lint": "eslint src",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"format": "wp-scripts format",
+		"tools": "[ -d ../softicon-tools ] && node ../softicon-tools/sync.js src/vendor/softicon-tools softicon-store-locator || true",
+		"prestart": "npm run -s tools",
+		"prebuild": "npm run -s tools",
+		"start": "wp-scripts start --webpack-copy-php",
+		"build": "wp-scripts build --webpack-copy-php",
+		"i18n-pot": "wp i18n make-pot . languages/softicon-store-locator.pot --exclude=\"src,node_modules\"",
+		"find-ds": "find . -name '.DS_Store' -not -path './node_modules/*' -delete",
+		"prezip": "[ -d node_modules ] || npm ci --no-audit --no-fund",
+		"zip": "rm -f softicon-store-locator.zip && printf '→ Building block\\n' && (npm run -s build >/dev/null 2>&1 || npm run build) && printf '→ Translations\\n' && (npm run -s i18n-pot >/dev/null 2>&1 || npm run i18n-pot) && npm run -s find-ds && printf '→ Zipping\\n' && cd .. && zip -rq softicon-store-locator/softicon-store-locator.zip softicon-store-locator/softicon-store-locator.php softicon-store-locator/index.php softicon-store-locator/includes softicon-store-locator/src softicon-store-locator/build softicon-store-locator/languages softicon-store-locator/readme.txt softicon-store-locator/package.json softicon-store-locator/webpack.config.js -x '*/.DS_Store' '*.map' 'softicon-store-locator/src/render.php'",
+		"postzip": "printf '\\n✔ Zip ready: %s\\n  %s files, %s\\n\\n' \"$PWD/softicon-store-locator.zip\" \"$(unzip -l softicon-store-locator.zip | tail -1 | awk '{print $2}')\" \"$(du -h softicon-store-locator.zip | cut -f1 | tr -d ' ')\"",
+		"bundle": "npm run lint && npm run zip"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^27.9.0",
+		"copy-webpack-plugin": "^10.2.4"
+	},
+	"dependencies": {
+		"leaflet": "1.9.4",
+		"leaflet.markercluster": "1.5.3",
+		"papaparse": "5.7.0"
+	}
+}

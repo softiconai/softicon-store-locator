@@ -1,0 +1,87 @@
+// where the build folder is, for src/public-path.js when a JS combine
+// plugin moved view.js; WordPress makes this url absolute when it prints
+// the CSS inline
+:root {
+	// a name in the folder, never loaded (the minifier would turn ./ into /;
+	// webpack.config.js tells css-loader not to look for the file)
+	--alsl-build: url(./alsl);
+}
+
+// logical properties (inline-start/end) keep the layout right for RTL
+// languages without an -rtl.css copy
+.alsl_locator {
+	box-sizing: border-box;
+	overflow: hidden;
+	border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+	border-radius: 12px;
+	background: var(--alsl-bg, transparent);
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+// the store list
+.alsl_list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.alsl_store {
+	display: flex;
+	gap: 12px 16px;
+	margin: 0;
+	padding: 16px;
+
+	& + & {
+		border-top: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.14));
+	}
+}
+
+.alsl_image {
+	flex: none;
+	width: 72px;
+	height: 72px;
+	border-radius: 8px;
+	object-fit: cover;
+}
+
+.alsl_info {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.alsl_name {
+	font-weight: 600;
+}
+
+.alsl_address {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	font-size: 0.9375em;
+	font-style: normal;
+}
+
+.alsl_hours {
+	font-size: 0.875em;
+	opacity: 0.8;
+}
+
+.alsl_links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 16px;
+	font-size: 0.9375em;
+}

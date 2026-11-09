@@ -1,0 +1,135 @@
+# Copyright (C) 2026 softiconai
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: SoftIcon Store Locator 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-store-locator\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-09T10:43:54+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: softicon-store-locator\n"
+
+#. Plugin Name of the plugin
+#: softicon-store-locator.php
+msgid "SoftIcon Store Locator"
+msgstr ""
+
+#. Description of the plugin
+#: softicon-store-locator.php
+msgid "A store locator block with an OpenStreetMap map. Visitors find the nearest store by town, postcode or their location. No Google Maps API key."
+msgstr ""
+
+#. Author of the plugin
+#: softicon-store-locator.php
+msgid "softiconai"
+msgstr ""
+
+#. Author URI of the plugin
+#: softicon-store-locator.php
+msgid "https://profiles.wordpress.org/softiconai/"
+msgstr ""
+
+#: build/render.php:56
+#: build/index.js:7
+msgid "Website"
+msgstr ""
+
+#: build/index.js:1
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: build/index.js:1
+msgid "Get support"
+msgstr ""
+
+#: build/index.js:1
+msgid "Rate Store Locator"
+msgstr ""
+
+#: build/index.js:1
+msgid "More plugins"
+msgstr ""
+
+#: build/index.js:1
+msgid "Help"
+msgstr ""
+
+#: build/index.js:1
+msgid "Email:"
+msgstr ""
+
+#: build/index.js:1
+msgid "Stores"
+msgstr ""
+
+#. translators: 1: number of stores, 2: how many of them have a place on the map
+#: build/index.js:4
+#, js-format
+msgid "%1$d store, %2$d on the map."
+msgid_plural "%1$d stores, %2$d on the map."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: the most stores one block can hold
+#: build/index.js:7
+#, js-format
+msgid "A block holds up to %d stores."
+msgstr ""
+
+#: build/index.js:7
+msgid "Store Locator"
+msgstr ""
+
+#: build/index.js:7
+msgid "No stores yet. The page leaves the block out until it has at least one store."
+msgstr ""
+
+#: build/block.json
+msgctxt "block title"
+msgid "Store Locator"
+msgstr ""
+
+#: build/block.json
+msgctxt "block description"
+msgid "A list of your stores with a map. Visitors find the nearest one by town, postcode or their location. No Google Maps API key."
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "store locator"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "store finder"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "dealer"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "location"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "branch"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "openstreetmap"
+msgstr ""
