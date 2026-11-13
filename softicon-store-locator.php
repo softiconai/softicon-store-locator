@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: SoftIcon Store Locator
+ * Plugin Name: SoftIcon Store Locator – Store Finder Map, No API Key
  * Description: A store locator block with an OpenStreetMap map. Visitors find the nearest store by town, postcode or their location. No Google Maps API key.
  * Version: 1.0.0
  * Requires at least: 6.5

@@ -1,4 +1,4 @@
-=== SoftIcon Store Locator ===
+=== SoftIcon Store Locator – Store Finder Map, No API Key ===
 Contributors: softiconai
 Tags: store locator, store finder, dealer locator, map, block
 Requires at least: 6.5
