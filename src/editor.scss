@@ -171,8 +171,19 @@
 	}
 }
 
+// the link to the video tutorial: beside the empty block's buttons, under the import's file button
+.alslVideo {
+	align-self: center;
+	margin-left: 4px;
+}
+
 // the CSV import
 .alslImport {
+
+	.alslVideo {
+		display: inline-block;
+		margin: 10px 0 0;
+	}
 
 	.alslColumns {
 		display: grid;

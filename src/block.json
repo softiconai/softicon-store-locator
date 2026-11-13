@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "softicon/store-locator",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"title": "Store Locator",
 	"category": "widgets",
 	"description": "A list of your stores with a map. Visitors find the nearest one by town, postcode or their location. No Google Maps API key.",

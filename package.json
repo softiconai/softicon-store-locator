@@ -1,6 +1,6 @@
 {
 	"name": "softicon-store-locator",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Store locator block for WordPress: a store list and an OpenStreetMap map, no Google Maps API key",
 	"main": "build/index.js",
 	"scripts": {

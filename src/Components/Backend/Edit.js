@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { BlockIcon, useBlockProps } from '@wordpress/block-editor';
-import { Button, Placeholder } from '@wordpress/components';
+import { Button, ExternalLink, Placeholder } from '@wordpress/components';
 import { useMergeRefs } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
 // copied from the shared softicon-tools folder by `npm run tools` (prebuild), edit it there
@@ -12,7 +12,7 @@ import SearchPreview from './SearchPreview';
 import CsvImport from './Stores/CsvImport';
 import useStores, { fixIds } from './Stores/useStores';
 import { blockIcon, icons } from '../../utils/icons';
-import { maxStores } from '../../utils/options';
+import { maxStores, videos } from '../../utils/options';
 import { cleanStore, text } from '../../utils/store';
 import { lookOf } from '../../utils/look';
 
@@ -111,6 +111,7 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 					{ ! isPreview && <>
 						<Button variant="primary" icon={ icons.add } onClick={ () => setEditing( actions.add() ) }>{ __( 'Add store', 'softicon-store-locator' ) }</Button>
 						<Button variant="secondary" icon={ icons.upload } onClick={ () => setImporting( true ) }>{ __( 'Import CSV', 'softicon-store-locator' ) }</Button>
+						<ExternalLink className="alslVideo" href={ videos.tutorial }>{ __( 'Watch the 2-minute setup video', 'softicon-store-locator' ) }</ExternalLink>
 					</> }
 				</Placeholder> }
 		</div>

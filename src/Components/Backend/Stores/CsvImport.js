@@ -1,8 +1,8 @@
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { Button, FormFileUpload, Modal, Notice, RadioControl, SelectControl } from '@wordpress/components';
+import { Button, ExternalLink, FormFileUpload, Modal, Notice, RadioControl, SelectControl } from '@wordpress/components';
 import { csvFields, guessColumns, rowsToStores } from '../../../utils/csv';
-import { maxStores } from '../../../utils/options';
+import { maxStores, videos } from '../../../utils/options';
 import { placeOf } from '../../../utils/store';
 
 // PapaParse is its own chunk, loaded only when a file is picked
@@ -62,6 +62,7 @@ const CsvImport = ( { actions, onClose } ) => {
 		<FormFileUpload accept=".csv,text/csv" onChange={ pick } render={ ( { openFileDialog } ) => <Button variant={ file ? 'secondary' : 'primary' } onClick={ openFileDialog } __next40pxDefaultSize>
 			{ file ? __( 'Choose another file', 'softicon-store-locator' ) : __( 'Choose CSV file', 'softicon-store-locator' ) }
 		</Button> } />
+		<ExternalLink className="alslVideo" href={ videos.csv }>{ __( 'See an import in the video tutorial', 'softicon-store-locator' ) }</ExternalLink>
 		{ error && <Notice status="error" isDismissible={ false }>{ error }</Notice> }
 
 		{ file && <>

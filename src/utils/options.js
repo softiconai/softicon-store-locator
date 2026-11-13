@@ -4,8 +4,17 @@ import { icons as shared } from '../vendor/softicon-tools/components/icons';
 // stores per block in Free; the same number is in includes/class-block.php (MAX)
 export const maxStores = 500;
 
+// the YouTube videos; tutorial chapters by their start in seconds
+const tutorial = 'https://www.youtube.com/watch?v=yX8TMUX9QKg';
+export const videos = {
+	promo: 'https://www.youtube.com/watch?v=KFmGVqEHBQo',
+	tutorial,
+	csv: tutorial + '&t=27s',
+};
+
 // the cards in the Help panel
 export const helpCards = [
+	{ href: videos.tutorial, label: __( 'Video tutorial', 'softicon-store-locator' ), icon: shared.video },
 	{ href: 'https://wordpress.org/support/plugin/softicon-store-locator/', label: __( 'Get support', 'softicon-store-locator' ), icon: shared.support },
 	{ href: 'https://wordpress.org/support/plugin/softicon-store-locator/reviews/#new-post', label: __( 'Rate Store Locator', 'softicon-store-locator' ), icon: shared.star },
 	{ href: 'https://wordpress.org/plugins/author/softiconai/', label: __( 'More plugins', 'softicon-store-locator' ), icon: shared.plugins },

@@ -4,7 +4,7 @@ Tags: store locator, store finder, dealer locator, map, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,10 @@ A store locator block with a free OpenStreetMap map. Visitors find the nearest s
 == Description ==
 
 **SoftIcon Store Locator** adds a **Store Locator** block to the block editor. Add your shops, branches or dealers right in the block, or import them from a CSV file, and the page shows them as a list with a map. Visitors type their town or postcode, or press **Near me**, and see the nearest stores first.
+
+https://www.youtube.com/watch?v=KFmGVqEHBQo
+
+**New to it?** Watch [Every setting, explained](https://www.youtube.com/watch?v=yX8TMUX9QKg), a 2-minute video tutorial.
 
 * **No Google Maps API key, no billing** – the map uses OpenStreetMap. Nothing to sign up for, no key that stops working.
 * **Build it in the editor** – the block shows the real map and list while you edit. Add a store, press **Find on map**, and drag the pin to the exact spot.
@@ -69,17 +73,29 @@ The unminified source of this plugin is in the src folder, with package.json and
 
 No. The map uses OpenStreetMap, which needs no key and no account.
 
+= Is there a video tutorial? =
+
+Yes: [Every setting, explained](https://www.youtube.com/watch?v=yX8TMUX9QKg) (2:06). Jump to a part:
+
+* [Add a store and find it on the map](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=13s)
+* [Import and export CSV](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=27s)
+* [Search box, Near me, distance and radius](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=45s)
+* [Directions, layout, map height and colors](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=67s)
+* [Load the map on click, starting zoom and tile server](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=90s)
+
+The empty block, the CSV import and the Help panel in the block's settings link to it too.
+
 = Where do I add my stores? =
 
 In the block itself. Select the block and open the **Stores** panel in the sidebar: add a store, fill in its address, and press **Find on map**. You can also click on the map to place a store, or drag its orange pin.
 
 = How should my CSV file look? =
 
-One store per row, with the column names in the first row. The block recognises common names such as name, address, city, postcode (or zip), country, phone, email, website, hours, lat (or latitude) and lng (or lon, longitude), and you can match any other column yourself. Commas or semicolons both work. Save the sheet as "CSV UTF-8" so accents stay right. If the file has no coordinates, press **Find the places of … stores** after the import.
+One store per row, with the column names in the first row. The block recognises common names such as name, address, city, postcode (or zip), country, phone, email, website, hours, lat (or latitude) and lng (or lon, longitude), and you can match any other column yourself. Commas or semicolons both work. Save the sheet as "CSV UTF-8" so accents stay right. If the file has no coordinates, press **Find the places of … stores** after the import. [See an import in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=27s).
 
 = A store's pin is in the wrong place =
 
-Place search is free but not perfect, especially for new streets or some countries. Open the store and drag its orange pin to the right spot, or type the latitude and longitude. Stores found without their postcode are marked in the list so you can check them.
+Place search is free but not perfect, especially for new streets or some countries. Open the store and drag its orange pin to the right spot, or type the latitude and longitude. Stores found without their postcode are marked in the list so you can check them. [See it in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=13s).
 
 = How many stores can one block hold? =
 
@@ -87,7 +103,7 @@ Up to 500. For more, add a second Store Locator block, for example one per count
 
 = Is it GDPR friendly? =
 
-It sets no cookies and tracks nothing. Turn on **Load the map on click** in the Map settings so nothing is loaded from OpenStreetMap until the visitor asks, and mention OpenStreetMap in your privacy policy. You can also turn off the place search for visitors.
+It sets no cookies and tracks nothing. Turn on **Load the map on click** in the Map settings so nothing is loaded from OpenStreetMap until the visitor asks, and mention OpenStreetMap in your privacy policy. You can also turn off the place search for visitors. [See it in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=90s).
 
 = My site has a lot of visitors =
 
@@ -119,6 +135,10 @@ The geocoder must answer like Nominatim's `/search` (JSON) or Photon (GeoJSON).
 6. On a phone: the search, the map and the list below it.
 
 == Changelog ==
+
+= 1.0.1 =
+* The video tutorial "Every setting, explained" is linked from the empty block, the CSV import and the Help panel.
+* The readme shows the promo video and links each FAQ to its part of the tutorial.
 
 = 1.0.0 =
 * First release.

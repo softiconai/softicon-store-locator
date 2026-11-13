@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.0.0\n"
+"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-store-locator\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-13T05:51:56+00:00\n"
+"POT-Creation-Date: 2026-11-13T09:05:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-store-locator\n"
@@ -215,6 +215,10 @@ msgid "%d store was found without its postcode, so its pin may be on the wrong s
 msgid_plural "%d stores were found without their postcode, so their pins may be on the wrong street. They are marked in the list: check them on the map."
 msgstr[0] ""
 msgstr[1] ""
+
+#: build/index.js:23
+msgid "Video tutorial"
+msgstr ""
 
 #: build/index.js:23
 msgid "Get support"
@@ -564,6 +568,10 @@ msgid "Choose CSV file"
 msgstr ""
 
 #: build/index.js:32
+msgid "See an import in the video tutorial"
+msgstr ""
+
+#: build/index.js:32
 msgid "Which column holds what. Columns with these names were matched already."
 msgstr ""
 
@@ -619,6 +627,10 @@ msgstr ""
 
 #: build/index.js:38
 msgid "Add your stores one by one, or import them from a CSV file. The map uses OpenStreetMap, no API key needed."
+msgstr ""
+
+#: build/index.js:38
+msgid "Watch the 2-minute setup video"
 msgstr ""
 
 #: build/view.js:1
