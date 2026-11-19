@@ -178,6 +178,8 @@ export default class Locator {
 		const info = this.itemOf( id )?.querySelector( '.alsl_info' );
 		const content = info ? info.cloneNode( true ) : document.createElement( 'div' );
 		content.classList.add( 'alsl_popup' );
+		// a copy: its schema.org microdata would be a second item
+		[ content, ...content.querySelectorAll( '[itemprop], [itemscope]' ) ].forEach( ( node ) => [ 'itemprop', 'itemscope', 'itemtype' ].forEach( ( name ) => node.removeAttribute( name ) ) );
 		return content;
 	}
 

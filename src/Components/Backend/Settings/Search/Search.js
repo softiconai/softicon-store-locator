@@ -3,9 +3,11 @@ import { SelectControl } from '@wordpress/components';
 import { Panel, ToggleRow } from '../../../../vendor/softicon-tools/components/Panels';
 import { radii } from '../../../../map/distance';
 import { distanceLabel } from '../../../../utils/options';
+import { categoryList } from '../../../../utils/category';
 
-const SearchPanel = ( { attributes, setAttributes } ) => {
-	const { search, geocodeSearch, nearMe, units, radius, directions } = attributes;
+const SearchPanel = ( { attributes, setAttributes, stores = [] } ) => {
+	const { search, geocodeSearch, nearMe, units, radius, directions, categoryFilter } = attributes;
+	const categories = categoryList( stores.map( ( store ) => store.category ) );
 	const set = ( key ) => ( value ) => setAttributes( { [ key ]: value } );
 	const unit = ( n ) => distanceLabel( n, units );
 
@@ -54,6 +56,21 @@ const SearchPanel = ( { attributes, setAttributes } ) => {
 				/>
 			</> }
 		</> }
+		<SelectControl
+			label={ __( 'Category filter', 'softicon-store-locator' ) }
+			help={ categories.length > 1
+				? __( 'Visitors can show only the stores of one category. It works with the search and the distances.', 'softicon-store-locator' )
+				: __( 'Shown when your stores have two categories or more. Give each store its categories in its form, or in a CSV column.', 'softicon-store-locator' ) }
+			value={ categoryFilter }
+			options={ [
+				{ value: 'select', label: __( 'Drop-down list', 'softicon-store-locator' ) },
+				{ value: 'buttons', label: __( 'Buttons', 'softicon-store-locator' ) },
+				{ value: '', label: __( 'None', 'softicon-store-locator' ) },
+			] }
+			onChange={ set( 'categoryFilter' ) }
+			__nextHasNoMarginBottom
+			__next40pxDefaultSize
+		/>
 		<SelectControl
 			label={ __( 'Directions link', 'softicon-store-locator' ) }
 			help={ __( 'A link under each store on the map that opens the route there. Only a link: nothing is loaded from these services.', 'softicon-store-locator' ) }

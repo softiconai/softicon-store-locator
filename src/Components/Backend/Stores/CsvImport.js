@@ -58,7 +58,7 @@ const CsvImport = ( { actions, onClose } ) => {
 	};
 
 	return <Modal title={ __( 'Import stores from CSV', 'softicon-store-locator' ) } onRequestClose={ onClose } className="alslImport" size="medium">
-		<p>{ __( 'Pick a CSV file with one store per row and the column names in the first row, such as name, address, city, postcode, country, phone, email, website, hours, lat and lng.', 'softicon-store-locator' ) }</p>
+		<p>{ __( 'Pick a CSV file with one store per row and the column names in the first row, such as name, address, city, postcode, country, phone, email, website, category, hours, lat and lng.', 'softicon-store-locator' ) }</p>
 		<FormFileUpload accept=".csv,text/csv" onChange={ pick } render={ ( { openFileDialog } ) => <Button variant={ file ? 'secondary' : 'primary' } onClick={ openFileDialog } __next40pxDefaultSize>
 			{ file ? __( 'Choose another file', 'softicon-store-locator' ) : __( 'Choose CSV file', 'softicon-store-locator' ) }
 		</Button> } />

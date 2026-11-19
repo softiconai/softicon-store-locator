@@ -10,7 +10,7 @@ class Block {
 
 	const NAME = 'softicon/store-locator';
 	const MAX  = 500;
-	const TEXT = array( 'name', 'address', 'city', 'postcode', 'country' );
+	const TEXT = array( 'name', 'address', 'city', 'postcode', 'country', 'category' );
 	const LOOK = array( 'layout', 'mapHeight', 'zoom', 'markerImageUrl', 'markerColor', 'clusterColor', 'buttonBg', 'buttonColor' );
 
 	public function __construct() {
@@ -91,6 +91,13 @@ class Block {
 		return array_values( array_filter( array_map( array( __CLASS__, 'store' ), $list, array_keys( $list ) ) ) );
 	}
 
+	// schema.org microdata
+	public static function prop( $name, $value ) {
+		if ( '' !== $value ) {
+			echo '<span itemprop="' . esc_attr( $name ) . '">' . esc_html( $value ) . '</span>';
+		}
+	}
+
 	public static function tel( $phone ) {
 		$tel = preg_replace( '/[^0-9+]/', '', $phone );
 		return strlen( $tel ) > 2 ? 'tel:' . $tel : '';
@@ -108,6 +115,7 @@ class Block {
 			'units'  => 'mi' === self::text( $attributes, 'units' ) ? 'mi' : 'km',
 			'radius' => isset( $attributes['radius'] ) ? absint( $attributes['radius'] ) : 0,
 			'route'  => self::text( $attributes, 'directions' ),
+			'cat'    => self::text( $attributes, 'categoryFilter' ),
 			// only the map and the search use these, so view.js checks and sets them
 			'look'   => array_intersect_key( $attributes, array_flip( self::LOOK ) ),
 		);

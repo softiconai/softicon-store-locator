@@ -4,7 +4,7 @@ Tags: store locator, store finder, dealer locator, map, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,10 +22,11 @@ https://www.youtube.com/watch?v=KFmGVqEHBQo
 * **Build it in the editor** – the block shows the real map and list while you edit. Add a store, press **Find on map**, and drag the pin to the exact spot.
 * **Free CSV import and export** – bring hundreds of stores from Excel or Google Sheets at once. Columns are matched for you, and stores without coordinates are placed on the map with one click.
 * **Find the nearest store** – visitors search by town, postcode or store name. Stores in your list are matched instantly; any other place is looked up and the stores are sorted by distance, in kilometres or miles, within the radius they choose.
+* **Category filter** – give stores categories such as Bakery or Café (in the block or from a CSV column), and visitors pick one from a drop-down list or a row of buttons. It works together with the search and the distances.
 * **Near me** – the visitor's location, given by their browser, sorts the stores by distance. It never leaves the browser.
 * **Directions** – a link under each store opens the route in Google Maps, Apple Maps or OpenStreetMap.
 * **Privacy friendly** – optional "load the map on click": nothing is loaded from the map server before the visitor asks for it. No cookies, no tracking.
-* **Works without JavaScript** – the store list is real HTML with addresses, phone numbers and links, so search engines can read it and every visitor can see it.
+* **Works without JavaScript, ready for search engines** – the store list is real HTML with addresses, phone numbers and links, marked up as schema.org LocalBusiness, so search engines understand every store and every visitor can see it.
 * **Fast** – the map's code loads only on pages with the block, only when the block comes near the screen.
 * **Your layout and colors** – list left, right or below the map, or the map only; the map height; the starting zoom; marker, marker group and button colors; your own marker picture; and the background, text and link colors and text size from the block editor.
 * **Clusters** – stores close together are grouped into one numbered marker until visitors zoom in.
@@ -91,7 +92,7 @@ In the block itself. Select the block and open the **Stores** panel in the sideb
 
 = How should my CSV file look? =
 
-One store per row, with the column names in the first row. The block recognises common names such as name, address, city, postcode (or zip), country, phone, email, website, hours, lat (or latitude) and lng (or lon, longitude), and you can match any other column yourself. Commas or semicolons both work. Save the sheet as "CSV UTF-8" so accents stay right. If the file has no coordinates, press **Find the places of … stores** after the import. [See an import in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=27s).
+One store per row, with the column names in the first row. The block recognises common names such as name, address, city, postcode (or zip), country, phone, email, website, category (several in one cell, separated by commas, semicolons or |), hours, lat (or latitude) and lng (or lon, longitude), and you can match any other column yourself. Commas or semicolons both work. Save the sheet as "CSV UTF-8" so accents stay right. If the file has no coordinates, press **Find the places of … stores** after the import. [See an import in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=27s).
 
 = A store's pin is in the wrong place =
 
@@ -113,6 +114,10 @@ OpenStreetMap's own tile server is meant for light use. For a busy site, set the
 
 Yes. The block uses no AJAX calls, and it finds its own files even when an optimization plugin combines or moves its scripts.
 
+= Does it help my local SEO? =
+
+Yes. Every store in the list is marked up as a schema.org LocalBusiness with its name, address, phone, email, website, picture and coordinates, so search engines such as Google can read your stores. Nothing to set up. If your SEO plugin already describes your business, both can stay on the same page.
+
 = Can I use my own marker? =
 
 Yes: pick a picture (your logo or an icon) in **Colors and marker**. Or keep the pin and choose its color.
@@ -133,8 +138,14 @@ The geocoder must answer like Nominatim's `/search` (JSON) or Photon (GeoJSON).
 4. Importing stores from a CSV file, with the columns matched for you.
 5. Layout, colors and your own marker.
 6. On a phone: the search, the map and the list below it.
+7. The category filter as buttons: only the cafés, in the list and on the map.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: category filter. Give stores categories (in the store form or from a CSV column) and visitors filter the list and the map with a drop-down list or a row of buttons. It works together with the search, the distances and Near me.
+* New: every store is marked up as a schema.org LocalBusiness (name, address, phone, email, website, picture and coordinates), so search engines understand your stores.
+* The search also matches a store's categories.
 
 = 1.0.1 =
 * The video tutorial "Every setting, explained" is linked from the empty block, the CSV import and the Help panel.

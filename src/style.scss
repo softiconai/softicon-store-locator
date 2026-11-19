@@ -193,7 +193,8 @@
 		color: inherit;
 	}
 
-	.alsl_radius {
+	.alsl_radius,
+	.alsl_cat {
 		min-height: 44px;
 		padding: 8px;
 		border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.3));
@@ -206,6 +207,38 @@
 
 	[hidden] {
 		display: none;
+	}
+}
+
+// the category filter as buttons: a row of its own
+.alsl_cats {
+	display: flex;
+	flex: 1 1 100%;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.alsl_chip {
+	min-height: 36px;
+	padding: 4px 14px;
+	border: 1px solid var(--alsl-border, rgba(0, 0, 0, 0.3));
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.9375em;
+	line-height: 1.2;
+	cursor: pointer;
+
+	&[aria-pressed="true"] {
+		border-color: currentcolor;
+		background: rgba(127, 127, 127, 0.16);
+		font-weight: 600;
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
 	}
 }
 

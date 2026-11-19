@@ -1,12 +1,13 @@
 import { distance, radii } from './distance';
 import { findPlace } from './geocode';
+import { categoryList, filterOf, fold, inCategory } from '../utils/category';
 
-// "Bristol", "bs1", "BS11JQ" or "café": accents and case do not matter, nor the spaces in a postcode
-const fold = ( value ) => value.normalize( 'NFD' ).replace( /[̀-ͯ]/g, '' ).toLowerCase();
+// "Bristol", "bs1", "BS11JQ" or "café": accents and case do not matter (fold), nor the spaces in a postcode
 const squash = ( value ) => value.replace( /[\s\-.,]+/g, '' );
 
 // the search above a block's map and list: the stores in the list first (no request), then the address on the
-// map service (only when the visitor presses Search), then "Near me" (the location stays in the browser)
+// map service (only when the visitor presses Search), then "Near me" (the location stays in the browser);
+// and the category filter, which only narrows what the list shows and never asks the map service
 export default class Finder {
 	constructor( el, config, text ) {
 		this.el = el;
@@ -17,25 +18,80 @@ export default class Finder {
 		this.units = 'mi' === config.units ? 'mi' : 'km';
 		this.radius = Number.isInteger( config.radius ) && config.radius > 0 && config.radius <= 20000 ? config.radius : 0;
 		this.number = new Intl.NumberFormat( document.documentElement.lang || undefined, { maximumFractionDigits: 1 } );
+		this.kind = filterOf( config.cat );
+		this.categories = this.kind ? categoryList( this.items.map( ( item ) => item.dataset.cat ) ) : [];
+		this.cat = '';
+		this.query = '';
+	}
+
+	// the stores in the chosen category
+	pool() {
+		return this.items.filter( ( item ) => inCategory( item.dataset.cat, this.cat ) );
+	}
+
+	// a drop-down list or a row of buttons; a choice applies to what is shown now
+	filter() {
+		const t = this.text;
+		const pick = ( name ) => {
+			this.cat = name ? fold( name ) : '';
+			// a place lookup on its way: its answer is sorted in the new category
+			if ( this.lookup ) {
+				return;
+			}
+			if ( this.origin ) {
+				this.sortFrom( this.origin );
+			} else if ( this.query ) {
+				this.find( this.query, true );
+			} else {
+				this.showAll();
+			}
+		};
+		if ( 'select' === this.kind ) {
+			const select = document.createElement( 'select' );
+			select.className = 'alsl_cat';
+			select.setAttribute( 'aria-label', t.category );
+			select.append( new Option( t.allCategories, '' ), ...this.categories.map( ( name ) => new Option( name, name ) ) );
+			select.addEventListener( 'change', () => pick( select.value ) );
+			return select;
+		}
+		const group = document.createElement( 'div' );
+		group.className = 'alsl_cats';
+		group.setAttribute( 'role', 'group' );
+		group.setAttribute( 'aria-label', t.category );
+		const buttons = [ '', ...this.categories ].map( ( name ) => {
+			const chip = Object.assign( document.createElement( 'button' ), { type: 'button', className: 'alsl_chip', textContent: name || t.allCategories } );
+			chip.setAttribute( 'aria-pressed', String( ! name ) );
+			chip.addEventListener( 'click', () => {
+				buttons.forEach( ( other ) => other.setAttribute( 'aria-pressed', String( other === chip ) ) );
+				pick( name );
+			} );
+			return chip;
+		} );
+		group.append( ...buttons );
+		return group;
 	}
 
 	init() {
 		const t = this.text;
 		const form = document.createElement( 'form' );
 		form.className = 'alsl_search';
-		form.setAttribute( 'role', 'search' );
-		form.setAttribute( 'aria-label', t.find );
+		const search = !! this.config.search;
+		// a filter alone is no search box
+		if ( search ) {
+			form.setAttribute( 'role', 'search' );
+		}
+		form.setAttribute( 'aria-label', search ? t.find : t.category );
 		form.noValidate = true;
 		const input = Object.assign( document.createElement( 'input' ), { type: 'search', className: 'alsl_query', placeholder: t.placeholder, autocomplete: 'off' } );
 		input.setAttribute( 'aria-label', t.find );
 		input.setAttribute( 'enterkeyhint', 'search' );
 		const button = ( label, cls, type = 'button' ) => Object.assign( document.createElement( 'button' ), { type, className: cls + ' wp-element-button', textContent: label } );
-		const parts = [ input, button( t.search, 'alsl_go', 'submit' ) ];
+		const parts = search ? [ input, button( t.search, 'alsl_go', 'submit' ) ] : [];
 		// distances need stores with a place: without one, only the list is searched
 		const placed = this.items.some( ( item ) => item.dataset.lat && item.dataset.lng );
-		this.geo = !! this.config.geo && placed;
+		this.geo = search && !! this.config.geo && placed;
 		// the browser asks the visitor; it works only on https
-		const near = !! this.config.near && placed && window.isSecureContext && !! navigator.geolocation;
+		const near = search && !! this.config.near && placed && window.isSecureContext && !! navigator.geolocation;
 		if ( near ) {
 			const nearButton = button( t.nearMe, 'alsl_near' );
 			nearButton.addEventListener( 'click', () => this.nearMe() );
@@ -55,6 +111,10 @@ export default class Finder {
 		if ( this.geo || near ) {
 			parts.push( radius );
 		}
+		// with two categories or more
+		if ( this.categories.length > 1 ) {
+			parts.push( this.filter() );
+		}
 		// the result line: what is shown, and "Show all" to go back
 		this.result = document.createElement( 'div' );
 		this.result.className = 'alsl_result';
@@ -65,8 +125,11 @@ export default class Finder {
 		this.reset = Object.assign( document.createElement( 'button' ), { type: 'button', className: 'alsl_all', textContent: t.all, hidden: true } );
 		this.reset.addEventListener( 'click', () => {
 			input.value = '';
+			this.query = '';
 			this.showAll();
-			input.focus();
+			if ( search ) {
+				input.focus();
+			}
 		} );
 		this.result.append( this.status, this.reset );
 		form.append( ...parts, this.result );
@@ -94,17 +157,20 @@ export default class Finder {
 		} );
 		this.list.append( ...items, ...this.items.filter( ( item ) => ! shown.has( item ) ) );
 		this.list.scrollTop = 0;
-		this.reset.hidden = items.length === this.items.length && ! origin;
+		// a category alone needs no "Show all": the filter shows it
+		this.reset.hidden = items.length === this.pool().length && ! origin;
 		this.result.hidden = this.reset.hidden && ! this.status.textContent;
 		this.el.alsl?.update();
 	}
 
 	showAll() {
-		this.show( this.items );
+		this.show( this.pool() );
 		this.say( '' );
 	}
 
-	async find( query ) {
+	// local: only the list (a new category for the last search), never the map service
+	async find( query, local = false ) {
+		this.query = query;
 		if ( ! query ) {
 			this.showAll();
 			return;
@@ -112,8 +178,8 @@ export default class Finder {
 		this.abort?.abort();
 		const words = fold( query ).split( /\s+/ ).filter( Boolean );
 		const compact = squash( fold( query ) );
-		const matches = this.items.filter( ( item ) => {
-			const hay = fold( item.querySelector( '.alsl_info' )?.textContent || '' );
+		const matches = this.pool().filter( ( item ) => {
+			const hay = fold( ( item.querySelector( '.alsl_info' )?.textContent || '' ) + ' ' + ( item.dataset.cat || '' ) );
 			return words.every( ( word ) => hay.includes( word ) ) || ( compact.length > 2 && squash( hay ).includes( compact ) );
 		} );
 		if ( matches.length ) {
@@ -122,20 +188,23 @@ export default class Finder {
 			return;
 		}
 		// nothing in the list and no place lookup: every store stays, with the message
-		if ( ! this.geo ) {
+		if ( ! this.geo || local ) {
 			this.showAll();
 			this.say( this.text.notFound( query ) );
 			return;
 		}
 		this.say( this.text.searching );
-		this.abort = new window.AbortController();
+		const lookup = new window.AbortController();
+		this.abort = lookup;
+		this.lookup = lookup;
 		try {
 			const place = await findPlace( { address: query }, {
 				url: this.config.geocoder,
 				lang: document.documentElement.lang,
 				bounds: this.bounds(),
-				signal: this.abort.signal,
+				signal: lookup.signal,
 			} );
+			this.lookup = null;
 			if ( place ) {
 				this.sortFrom( { lat: place.lat, lng: place.lng, label: place.label.split( ',' )[ 0 ] || query } );
 			} else {
@@ -143,6 +212,9 @@ export default class Finder {
 				this.say( this.text.notFound( query ) );
 			}
 		} catch ( error ) {
+			if ( this.lookup === lookup ) {
+				this.lookup = null;
+			}
 			if ( 'AbortError' !== error.name ) {
 				this.say( this.text.failed );
 			}
@@ -151,10 +223,12 @@ export default class Finder {
 
 	nearMe() {
 		this.abort?.abort();
+		this.lookup = null;
 		this.say( this.text.locating );
 		navigator.geolocation.getCurrentPosition(
 			( position ) => {
 				this.input.value = '';
+				this.query = '';
 				this.sortFrom( { lat: position.coords.latitude, lng: position.coords.longitude, label: this.text.you, you: true } );
 			},
 			() => this.say( this.text.noLocation ),
@@ -164,12 +238,18 @@ export default class Finder {
 
 	// the stores by distance from a place: those within the radius, or the nearest three when none is
 	sortFrom( origin ) {
-		const placed = this.items
+		const placed = this.pool()
 			.filter( ( item ) => item.dataset.lat && item.dataset.lng )
 			.map( ( item ) => ( { item, km: distance( origin, { lat: Number( item.dataset.lat ), lng: Number( item.dataset.lng ) }, this.units ) } ) )
 			.sort( ( a, b ) => a.km - b.km );
 		const within = this.radius ? placed.filter( ( p ) => p.km <= this.radius ) : placed;
 		const shown = within.length ? within : placed.slice( 0, 3 );
+		// a category with no store on the map
+		if ( ! shown.length ) {
+			this.show( this.pool(), origin );
+			this.say( this.text.unplaced );
+			return;
+		}
 		this.show( shown.map( ( p ) => p.item ), origin );
 		shown.forEach( ( { item, km } ) => {
 			const label = document.createElement( 'span' );

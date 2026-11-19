@@ -10,6 +10,7 @@ export const csvFields = [
 	{ key: 'phone', label: __( 'Phone', 'softicon-store-locator' ), names: [ 'phone', 'telephone', 'tel', 'phone number', 'mobile', 'telefon', 'telephone number' ] },
 	{ key: 'email', label: __( 'Email', 'softicon-store-locator' ), names: [ 'email', 'e mail', 'mail', 'email address' ] },
 	{ key: 'website', label: __( 'Website', 'softicon-store-locator' ), names: [ 'website', 'url', 'web', 'site', 'homepage', 'web site' ] },
+	{ key: 'category', label: __( 'Categories', 'softicon-store-locator' ), names: [ 'category', 'categories', 'type', 'store type', 'tags', 'tag', 'group', 'kategorie', 'catégorie', 'categorie', 'categoría', 'categoria' ] },
 	{ key: 'hours', label: __( 'Opening hours', 'softicon-store-locator' ), names: [ 'hours', 'opening hours', 'opening times', 'open', 'business hours' ] },
 	{ key: 'lat', label: __( 'Latitude', 'softicon-store-locator' ), names: [ 'lat', 'latitude' ] },
 	{ key: 'lng', label: __( 'Longitude', 'softicon-store-locator' ), names: [ 'lng', 'lon', 'long', 'longitude' ] },
@@ -42,6 +43,10 @@ export const rowsToStores = ( rows, columns ) => rows.map( ( row ) => {
 			// the ' that storesToCsv() put before a cell starting with = @ + or -
 			const cell = value.trim().replace( /^'(?=[=@+\-])/, '' );
 			store[ key ] = 'lat' === key || 'lng' === key ? number( cell ) : cell;
+			// "Bakery; Café" or "Bakery | Café" from a spreadsheet: several categories
+			if ( 'category' === key ) {
+				store[ key ] = cell.replace( /\s*[;|]\s*/g, ', ' );
+			}
 		}
 	} );
 	return store;

@@ -1,10 +1,25 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { Button, Notice, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, FormTokenField, Notice, TextControl, TextareaControl } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { findPlace, queryOf } from '../../../map/geocode';
 import { cleanStore, placeOf } from '../../../utils/store';
 import { icons } from '../../../utils/icons';
+import { categoriesOf, categoryList, fold } from '../../../utils/category';
+
+// tokens => "Bakery, Café": each once, in the order given, spelled as the stores already have it ("cafe" => "Café");
+// a comma would split it
+const joinCategories = ( tokens, known ) => {
+	const spelled = new Map( known.map( ( name ) => [ fold( name ), name ] ) );
+	const names = new Map();
+	tokens.forEach( ( token ) => {
+		const name = ( 'string' === typeof token ? token : token.value ).replace( /,/g, ' ' ).trim();
+		if ( name && ! names.has( fold( name ) ) ) {
+			names.set( fold( name ), spelled.get( fold( name ) ) || name );
+		}
+	} );
+	return [ ...names.values() ].join( ', ' );
+};
 
 const fields = [
 	[ 'name', __( 'Name', 'softicon-store-locator' ) ],
@@ -27,6 +42,7 @@ const StoreForm = ( { store, actions, geocoder, onClose } ) => {
 	const shown = cleanStore( store, 0 );
 	const place = placeOf( store );
 	const query = queryOf( store );
+	const known = categoryList( actions.get().map( ( other ) => other?.category ) );
 
 	const find = async () => {
 		abort.current?.abort();
@@ -64,6 +80,20 @@ const StoreForm = ( { store, actions, geocoder, onClose } ) => {
 			__nextHasNoMarginBottom
 			__next40pxDefaultSize
 		/> ) }
+
+		<FormTokenField
+			label={ __( 'Categories', 'softicon-store-locator' ) }
+			value={ categoriesOf( store.category ) }
+			// the other stores' categories
+			suggestions={ known }
+			onChange={ ( tokens ) => set( 'category' )( joinCategories( tokens, known ) ) }
+			__experimentalExpandOnFocus
+			// a category typed without Enter is kept too
+			tokenizeOnBlur
+			__nextHasNoMarginBottom
+			__next40pxDefaultSize
+		/>
+		<p className="alslHelp">{ __( 'For the visitors\' category filter, for example Bakery or Café.', 'softicon-store-locator' ) }</p>
 
 		<TextareaControl
 			label={ __( 'Opening hours', 'softicon-store-locator' ) }

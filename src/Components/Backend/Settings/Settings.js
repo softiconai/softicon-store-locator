@@ -13,7 +13,7 @@ const Settings = ( props ) => {
 		<div className="siSettings">
 			<PanelGroup initial="stores">
 				<General { ...props } />
-				<SearchPanel { ...{ attributes, setAttributes } } />
+				<SearchPanel { ...{ attributes, setAttributes, stores: props.stores } } />
 				<LayoutPanel { ...{ attributes, setAttributes } } />
 				<StylePanel { ...{ attributes, setAttributes } } />
 				<MapPanel { ...{ attributes, setAttributes } } />

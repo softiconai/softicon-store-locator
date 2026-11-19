@@ -8,7 +8,7 @@ import { useSelect } from '@wordpress/data';
 import useIframeAssets from '../../vendor/softicon-tools/hooks/useIframeAssets';
 import Settings from './Settings/Settings';
 import StoreCards from './StoreCards';
-import SearchPreview from './SearchPreview';
+import SearchPreview, { filterCategories } from './SearchPreview';
 import CsvImport from './Stores/CsvImport';
 import useStores, { fixIds } from './Stores/useStores';
 import { blockIcon, icons } from '../../utils/icons';
@@ -96,7 +96,7 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 		<div { ...blockProps }>
 			{ stores.length || edited
 				? <>
-					{ attributes.search && <SearchPreview attributes={ attributes } /> }
+					{ ( attributes.search || filterCategories( attributes, stores ).length > 1 ) && <SearchPreview attributes={ attributes } stores={ stores } /> }
 					<div className="alsl_inner">
 						{ /* Leaflet fills this, React leaves its content alone */ }
 						{ hasMap && <div className="alsl_map" /> }

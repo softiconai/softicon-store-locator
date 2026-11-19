@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.0.1\n"
+"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-store-locator\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-13T09:05:08+00:00\n"
+"POT-Creation-Date: 2026-11-19T08:45:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-store-locator\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "https://profiles.wordpress.org/softiconai/"
 msgstr ""
 
-#: build/render.php:59
+#: build/render.php:58
 #: build/index.js:2
 #: build/index.js:23
 #: build/index.js:32
@@ -91,6 +91,15 @@ msgstr ""
 
 #: build/index.js:2
 msgid "Not shown on the page: this is not a valid address."
+msgstr ""
+
+#: build/index.js:2
+#: build/index.js:23
+msgid "Categories"
+msgstr ""
+
+#: build/index.js:2
+msgid "For the visitors' category filter, for example Bakery or Café."
 msgstr ""
 
 #: build/index.js:2
@@ -437,15 +446,35 @@ msgid "Any distance"
 msgstr ""
 
 #: build/index.js:32
+msgid "Category filter"
+msgstr ""
+
+#: build/index.js:32
+msgid "Visitors can show only the stores of one category. It works with the search and the distances."
+msgstr ""
+
+#: build/index.js:32
+msgid "Shown when your stores have two categories or more. Give each store its categories in its form, or in a CSV column."
+msgstr ""
+
+#: build/index.js:32
+msgid "Drop-down list"
+msgstr ""
+
+#: build/index.js:32
+msgid "Buttons"
+msgstr ""
+
+#: build/index.js:32
+msgid "None"
+msgstr ""
+
+#: build/index.js:32
 msgid "Directions link"
 msgstr ""
 
 #: build/index.js:32
 msgid "A link under each store on the map that opens the route there. Only a link: nothing is loaded from these services."
-msgstr ""
-
-#: build/index.js:32
-msgid "None"
 msgstr ""
 
 #: build/index.js:32
@@ -539,6 +568,11 @@ msgstr ""
 
 #: build/index.js:32
 #: build/view.js:1
+msgid "All categories"
+msgstr ""
+
+#: build/index.js:32
+#: build/view.js:1
 msgid "Town, postcode or store name"
 msgstr ""
 
@@ -552,7 +586,7 @@ msgid "Import stores from CSV"
 msgstr ""
 
 #: build/index.js:32
-msgid "Pick a CSV file with one store per row and the column names in the first row, such as name, address, city, postcode, country, phone, email, website, hours, lat and lng."
+msgid "Pick a CSV file with one store per row and the column names in the first row, such as name, address, city, postcode, country, phone, email, website, category, hours, lat and lng."
 msgstr ""
 
 #: build/index.js:32
@@ -659,6 +693,14 @@ msgstr ""
 
 #: build/view.js:1
 msgid "Distance"
+msgstr ""
+
+#: build/view.js:1
+msgid "Category"
+msgstr ""
+
+#: build/view.js:1
+msgid "No store in this category is on the map yet."
 msgstr ""
 
 #: build/view.js:1

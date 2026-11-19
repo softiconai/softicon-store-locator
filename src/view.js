@@ -2,6 +2,7 @@ import './public-path';
 import { text } from './map/messages';
 import { routes } from './map/distance';
 import { lookOf } from './utils/look';
+import { categoryList, filterOf } from './utils/category';
 
 const SELECTOR = '.alsl_locator';
 
@@ -32,15 +33,26 @@ const find = async ( el, config ) => {
 	}
 };
 
-// "Directions" for every store on the map: a link to the route planner the block names, nothing is loaded
-const addRoutes = ( el, config ) => {
+// each store with a place gets its schema.org coordinates (render.php has no room for them)
+// and "Directions": a link to the route planner the block names, nothing is loaded
+const addPlaces = ( el, config ) => {
 	const route = Object.prototype.hasOwnProperty.call( routes, config.route ) && routes[ config.route ];
-	if ( ! route ) {
-		return;
-	}
 	el.querySelectorAll( '.alsl_store[data-lat][data-lng]' ).forEach( ( item ) => {
+		if ( item.hasAttribute( 'itemscope' ) && ! item.querySelector( '[itemprop="geo"]' ) ) {
+			const geo = Object.assign( document.createElement( 'span' ), { hidden: true } );
+			geo.setAttribute( 'itemprop', 'geo' );
+			geo.setAttribute( 'itemscope', '' );
+			geo.setAttribute( 'itemtype', 'https://schema.org/GeoCoordinates' );
+			[ [ 'latitude', item.dataset.lat ], [ 'longitude', item.dataset.lng ] ].forEach( ( [ name, value ] ) => {
+				const meta = document.createElement( 'meta' );
+				meta.setAttribute( 'itemprop', name );
+				meta.content = value;
+				geo.append( meta );
+			} );
+			item.append( geo );
+		}
 		const info = item.querySelector( '.alsl_info' );
-		if ( ! info || item.querySelector( '.alsl_route' ) ) {
+		if ( ! route || ! info || item.querySelector( '.alsl_route' ) ) {
 			return;
 		}
 		let links = info.querySelector( '.alsl_links' );
@@ -103,11 +115,14 @@ const askFirst = ( el, box, config ) => {
 	box.append( consent );
 };
 
+// the search box, or the category filter when the stores have two categories or more
+const wantsFinder = ( el, config ) => config.search || ( filterOf( config.cat ) && categoryList( [ ...el.querySelectorAll( '.alsl_store' ) ].map( ( item ) => item.dataset.cat ) ).length > 1 );
+
 // shows, updates or removes the map to match the block; the editor calls it again after every change
 const sync = ( el ) => {
 	const config = configOf( el );
 	const box = el.querySelector( '.alsl_map' );
-	if ( config && config.search && ! config.editor && ! el.alslFinding ) {
+	if ( config && ! config.editor && ! el.alslFinding && wantsFinder( el, config ) ) {
 		find( el, config );
 	}
 	// the editor also shows the map for a store being edited that has no place yet, to click it in
@@ -153,7 +168,7 @@ const boot = () => {
 		const config = configOf( el );
 		// the editor's list and classes are React's: the block sets them itself
 		if ( config && ! config.editor ) {
-			addRoutes( el, config );
+			addPlaces( el, config );
 			const look = lookOf( config.look );
 			el.classList.add( ...look.className.split( ' ' ) );
 			Object.entries( look.style ).forEach( ( [ name, value ] ) => el.style.setProperty( name, value ) );
