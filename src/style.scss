@@ -210,12 +210,42 @@
 	}
 }
 
-// the category filter as buttons: a row of its own
-.alsl_cats {
+// the category filter as buttons: a row of its own, with "Open now" at its end
+.alsl_cats,
+.alsl_catgroup {
 	display: flex;
 	flex: 1 1 100%;
 	flex-wrap: wrap;
 	gap: 8px;
+}
+
+.alsl_catgroup {
+	display: contents;
+}
+
+.alsl_search > .alsl_open_only {
+	min-height: 44px;
+	margin: 0;
+}
+
+// open or closed, after the store's name
+.alsl_open {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.875em;
+
+	&::before {
+		content: "";
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #8c8f94;
+	}
+
+	&.alsl_is_open::before {
+		background: #00a32a;
+	}
 }
 
 .alsl_chip {

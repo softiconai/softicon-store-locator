@@ -6,6 +6,7 @@ import { findPlace, queryOf } from '../../../map/geocode';
 import { cleanStore, placeOf } from '../../../utils/store';
 import { icons } from '../../../utils/icons';
 import { categoriesOf, categoryList, fold } from '../../../utils/category';
+import WeekHours from './WeekHours';
 
 // tokens => "Bakery, Café": each once, in the order given, spelled as the stores already have it ("cafe" => "Café");
 // a comma would split it
@@ -103,6 +104,7 @@ const StoreForm = ( { store, actions, geocoder, onClose } ) => {
 			rows={ 3 }
 			__nextHasNoMarginBottom
 		/>
+		<WeekHours value={ store.schedule ?? '' } onChange={ set( 'schedule' ) } onText={ set( 'hours' ) } />
 
 		<div className="alslPlace">
 			<p className="alslLabel">{ __( 'Place on the map', 'softicon-store-locator' ) }</p>

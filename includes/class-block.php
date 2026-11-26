@@ -10,8 +10,8 @@ class Block {
 
 	const NAME = 'softicon/store-locator';
 	const MAX  = 500;
-	const TEXT = array( 'name', 'address', 'city', 'postcode', 'country', 'category' );
-	const LOOK = array( 'layout', 'mapHeight', 'zoom', 'markerImageUrl', 'markerColor', 'clusterColor', 'buttonBg', 'buttonColor' );
+	const TEXT = array( 'name', 'address', 'city', 'postcode', 'country', 'category', 'schedule' );
+	const LOOK = array( 'layout', 'mapHeight', 'zoom', 'markerImageUrl', 'markerColor', 'clusterColor', 'buttonBg', 'buttonColor', 'openNow' );
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register' ) );
@@ -116,6 +116,7 @@ class Block {
 			'radius' => isset( $attributes['radius'] ) ? absint( $attributes['radius'] ) : 0,
 			'route'  => self::text( $attributes, 'directions' ),
 			'cat'    => self::text( $attributes, 'categoryFilter' ),
+			'tz'     => wp_timezone_string(),
 			// only the map and the search use these, so view.js checks and sets them
 			'look'   => array_intersect_key( $attributes, array_flip( self::LOOK ) ),
 		);

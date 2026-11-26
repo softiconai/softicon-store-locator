@@ -28,7 +28,7 @@ $alsl_wrapper = get_block_wrapper_attributes(
 		foreach ( $alsl_stores as $alsl_store ) :
 			$alsl_tel = Block::tel( $alsl_store['phone'] );
 			?>
-			<li class="alsl_store" itemscope itemtype="https://schema.org/LocalBusiness" data-id="<?php echo esc_attr( $alsl_store['id'] ); ?>" data-cat="<?php echo esc_attr( $alsl_store['category'] ); ?>"<?php if ( null !== $alsl_store['lat'] ) : ?> data-lat="<?php echo esc_attr( Block::num( $alsl_store['lat'] ) ); ?>" data-lng="<?php echo esc_attr( Block::num( $alsl_store['lng'] ) ); ?>"<?php endif; ?>>
+			<li class="alsl_store" itemscope itemtype="https://schema.org/LocalBusiness" data-id="<?php echo esc_attr( $alsl_store['id'] ); ?>" data-cat="<?php echo esc_attr( $alsl_store['category'] ); ?>" data-open="<?php echo esc_attr( $alsl_store['schedule'] ); ?>"<?php if ( null !== $alsl_store['lat'] ) : ?> data-lat="<?php echo esc_attr( Block::num( $alsl_store['lat'] ) ); ?>" data-lng="<?php echo esc_attr( Block::num( $alsl_store['lng'] ) ); ?>"<?php endif; ?>>
 				<?php if ( $alsl_store['image'] ) : ?>
 					<img class="alsl_image" itemprop="image" src="<?php echo esc_url( $alsl_store['image'] ); ?>" alt="" loading="lazy" decoding="async">
 				<?php endif; ?>

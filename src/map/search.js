@@ -1,13 +1,24 @@
 import { distance, radii } from './distance';
 import { findPlace } from './geocode';
 import { categoryList, filterOf, fold, inCategory } from '../utils/category';
+import { hasHours, nowIn, openModeOf, parseSchedule, statusOf } from '../utils/hours';
 
 // "Bristol", "bs1", "BS11JQ" or "café": accents and case do not matter (fold), nor the spaces in a postcode
 const squash = ( value ) => value.replace( /[\s\-.,]+/g, '' );
 
+// the stores shown, as one string (ids are sanitize_key() output: no commas)
+const keyOf = ( items ) => items.map( ( item ) => item.dataset.id ).join();
+
+// what a visitor can search in a store: its text and categories, not the open/closed badge or the distance
+const hayOf = ( item ) => {
+	const info = item.querySelector( '.alsl_info' )?.cloneNode( true );
+	info?.querySelectorAll( '.alsl_open, .alsl_distance' ).forEach( ( node ) => node.remove() );
+	return fold( ( info?.textContent || '' ) + ' ' + ( item.dataset.cat || '' ) );
+};
+
 // the search above a block's map and list: the stores in the list first (no request), then the address on the
 // map service (only when the visitor presses Search), then "Near me" (the location stays in the browser);
-// and the category filter, which only narrows what the list shows and never asks the map service
+// and the category and "Open now" filters, which only narrow what the list shows and never ask the map service
 export default class Finder {
 	constructor( el, config, text ) {
 		this.el = el;
@@ -22,11 +33,49 @@ export default class Finder {
 		this.categories = this.kind ? categoryList( this.items.map( ( item ) => item.dataset.cat ) ) : [];
 		this.cat = '';
 		this.query = '';
+		this.weeks = new Map( this.items.map( ( item ) => [ item, parseSchedule( item.dataset.open ) ] ) );
+		this.timed = 'filter' === openModeOf( config.look?.openNow ) && [ ...this.weeks.values() ].some( hasHours );
+		this.openOnly = false;
 	}
 
-	// the stores in the chosen category
+	// the stores in the chosen category, and open now when the visitor asks
 	pool() {
-		return this.items.filter( ( item ) => inCategory( item.dataset.cat, this.cat ) );
+		const now = this.openOnly && nowIn( this.config.tz );
+		return this.items.filter( ( item ) => inCategory( item.dataset.cat, this.cat ) && ( ! now || statusOf( this.weeks.get( item ), now )?.open ) );
+	}
+
+	// a filter changed: what is shown now, again
+	refresh() {
+		// a place lookup on its way: its answer is sorted with the new filter
+		if ( this.lookup ) {
+			return;
+		}
+		this.openKey = keyOf( this.pool() );
+		if ( this.origin ) {
+			this.sortFrom( this.origin );
+		} else if ( this.query ) {
+			this.find( this.query, true );
+		} else {
+			this.showAll();
+		}
+	}
+
+	// "Open now": a button that stays pressed; the badges' minute (alsl:tick) may open or close stores
+	openToggle() {
+		const chip = Object.assign( document.createElement( 'button' ), { type: 'button', className: 'alsl_chip alsl_open_only', textContent: this.text.openNow } );
+		chip.setAttribute( 'aria-pressed', 'false' );
+		chip.addEventListener( 'click', () => {
+			this.openOnly = ! this.openOnly;
+			chip.setAttribute( 'aria-pressed', String( this.openOnly ) );
+			this.refresh();
+		} );
+		this.el.addEventListener( 'alsl:tick', () => {
+			// only when the open stores changed, so a list being read does not jump
+			if ( this.openOnly && this.openKey !== keyOf( this.pool() ) ) {
+				this.refresh();
+			}
+		} );
+		return chip;
 	}
 
 	// a drop-down list or a row of buttons; a choice applies to what is shown now
@@ -34,17 +83,7 @@ export default class Finder {
 		const t = this.text;
 		const pick = ( name ) => {
 			this.cat = name ? fold( name ) : '';
-			// a place lookup on its way: its answer is sorted in the new category
-			if ( this.lookup ) {
-				return;
-			}
-			if ( this.origin ) {
-				this.sortFrom( this.origin );
-			} else if ( this.query ) {
-				this.find( this.query, true );
-			} else {
-				this.showAll();
-			}
+			this.refresh();
 		};
 		if ( 'select' === this.kind ) {
 			const select = document.createElement( 'select' );
@@ -54,8 +93,11 @@ export default class Finder {
 			select.addEventListener( 'change', () => pick( select.value ) );
 			return select;
 		}
+		// the row; "Open now" may join it
+		const row = document.createElement( 'div' );
+		row.className = 'alsl_cats';
 		const group = document.createElement( 'div' );
-		group.className = 'alsl_cats';
+		group.className = 'alsl_catgroup';
 		group.setAttribute( 'role', 'group' );
 		group.setAttribute( 'aria-label', t.category );
 		const buttons = [ '', ...this.categories ].map( ( name ) => {
@@ -68,7 +110,8 @@ export default class Finder {
 			return chip;
 		} );
 		group.append( ...buttons );
-		return group;
+		row.append( group );
+		return row;
 	}
 
 	init() {
@@ -81,6 +124,9 @@ export default class Finder {
 			form.setAttribute( 'role', 'search' );
 		}
 		form.setAttribute( 'aria-label', search ? t.find : t.category );
+		if ( ! search && this.categories.length < 2 ) {
+			form.setAttribute( 'aria-label', t.openNow );
+		}
 		form.noValidate = true;
 		const input = Object.assign( document.createElement( 'input' ), { type: 'search', className: 'alsl_query', placeholder: t.placeholder, autocomplete: 'off' } );
 		input.setAttribute( 'aria-label', t.find );
@@ -112,8 +158,22 @@ export default class Finder {
 			parts.push( radius );
 		}
 		// with two categories or more
-		if ( this.categories.length > 1 ) {
-			parts.push( this.filter() );
+		const filter = this.categories.length > 1 ? this.filter() : null;
+		if ( filter ) {
+			parts.push( filter );
+		}
+		// with opening times; in the category buttons' row when there is one
+		if ( this.timed ) {
+			const toggle = this.openToggle();
+			if ( filter?.classList.contains( 'alsl_cats' ) ) {
+				filter.append( toggle );
+			} else {
+				parts.push( toggle );
+			}
+		}
+		// nothing to show (opening times that can not be read, and no search)
+		if ( ! parts.length ) {
+			return;
 		}
 		// the result line: what is shown, and "Show all" to go back
 		this.result = document.createElement( 'div' );
@@ -164,8 +224,9 @@ export default class Finder {
 	}
 
 	showAll() {
-		this.show( this.pool() );
-		this.say( '' );
+		const pool = this.pool();
+		this.show( pool );
+		this.say( this.openOnly && ! pool.length ? this.text.noneOpen : '' );
 	}
 
 	// local: only the list (a new category for the last search), never the map service
@@ -178,13 +239,21 @@ export default class Finder {
 		this.abort?.abort();
 		const words = fold( query ).split( /\s+/ ).filter( Boolean );
 		const compact = squash( fold( query ) );
-		const matches = this.pool().filter( ( item ) => {
-			const hay = fold( ( item.querySelector( '.alsl_info' )?.textContent || '' ) + ' ' + ( item.dataset.cat || '' ) );
+		const all = this.items.filter( ( item ) => {
+			const hay = hayOf( item );
 			return words.every( ( word ) => hay.includes( word ) ) || ( compact.length > 2 && squash( hay ).includes( compact ) );
 		} );
+		const pool = new Set( this.pool() );
+		const matches = all.filter( ( item ) => pool.has( item ) );
 		if ( matches.length ) {
 			this.show( matches );
 			this.say( this.text.matches( matches.length, query ) );
+			return;
+		}
+		// a store the category or "Open now" hides: said here, never looked up on the map service
+		if ( all.length ) {
+			this.showAll();
+			this.say( this.text.filtered( query ) );
 			return;
 		}
 		// nothing in the list and no place lookup: every store stays, with the message
@@ -247,7 +316,7 @@ export default class Finder {
 		// a category with no store on the map
 		if ( ! shown.length ) {
 			this.show( this.pool(), origin );
-			this.say( this.text.unplaced );
+			this.say( this.pool().length ? this.text.unplaced : this.text.noneOpen );
 			return;
 		}
 		this.show( shown.map( ( p ) => p.item ), origin );

@@ -8,7 +8,7 @@ import { useSelect } from '@wordpress/data';
 import useIframeAssets from '../../vendor/softicon-tools/hooks/useIframeAssets';
 import Settings from './Settings/Settings';
 import StoreCards from './StoreCards';
-import SearchPreview, { filterCategories } from './SearchPreview';
+import SearchPreview, { filterCategories, openFilterShown } from './SearchPreview';
 import CsvImport from './Stores/CsvImport';
 import useStores, { fixIds } from './Stores/useStores';
 import { blockIcon, icons } from '../../utils/icons';
@@ -74,7 +74,7 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 	const hasMap = ! isPreview && ( !! edited || stores.some( ( store ) => null !== store.lat ) );
 	// as render.php prints it; "load on click" is for visitors, the editor shows the map straight away
 	// the same keys as Block::LOOK in PHP
-	const look = Object.fromEntries( [ 'layout', 'mapHeight', 'zoom', 'markerImageUrl', 'markerColor', 'clusterColor', 'buttonBg', 'buttonColor' ].map( ( key ) => [ key, attributes[ key ] ] ) );
+	const look = Object.fromEntries( [ 'layout', 'mapHeight', 'zoom', 'markerImageUrl', 'markerColor', 'clusterColor', 'buttonBg', 'buttonColor', 'openNow' ].map( ( key ) => [ key, attributes[ key ] ] ) );
 	const config = JSON.stringify( { ...site, click: loadOnClick, tiles: text( tileUrl ) || site.tiles || '', credit: text( tileCredit ) || site.credit || '', editor: true, editing: edited, look } );
 	const { className: lookClass, style: lookStyle } = lookOf( look );
 	useMap( ref, JSON.stringify( [ config, stores ] ), {
@@ -96,11 +96,11 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 		<div { ...blockProps }>
 			{ stores.length || edited
 				? <>
-					{ ( attributes.search || filterCategories( attributes, stores ).length > 1 ) && <SearchPreview attributes={ attributes } stores={ stores } /> }
+					{ ( attributes.search || filterCategories( attributes, stores ).length > 1 || openFilterShown( attributes, stores ) ) && <SearchPreview attributes={ attributes } stores={ stores } /> }
 					<div className="alsl_inner">
 						{ /* Leaflet fills this, React leaves its content alone */ }
 						{ hasMap && <div className="alsl_map" /> }
-						<StoreCards stores={ stores } route={ attributes.directions } />
+						<StoreCards stores={ stores } route={ attributes.directions } openNow={ attributes.openNow } zone={ site.tz } />
 					</div>
 				</>
 				: <Placeholder

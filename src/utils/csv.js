@@ -1,4 +1,8 @@
 import { __ } from '@wordpress/i18n';
+import { formatSchedule, parseSchedule, scheduleOf } from './hours';
+
+// readable opening times in the standard form ("Mo-Fr 09:00-18:00; Sa 10:00-14:00"), as the store form writes them
+const standard = ( value ) => ( scheduleOf( value ) ? formatSchedule( parseSchedule( scheduleOf( value ) ) ) : '' );
 
 // the store fields a CSV file can fill, and the column names that mean them (lower case, spaces for _ - .)
 export const csvFields = [
@@ -11,6 +15,7 @@ export const csvFields = [
 	{ key: 'email', label: __( 'Email', 'softicon-store-locator' ), names: [ 'email', 'e mail', 'mail', 'email address' ] },
 	{ key: 'website', label: __( 'Website', 'softicon-store-locator' ), names: [ 'website', 'url', 'web', 'site', 'homepage', 'web site' ] },
 	{ key: 'category', label: __( 'Categories', 'softicon-store-locator' ), names: [ 'category', 'categories', 'type', 'store type', 'tags', 'tag', 'group', 'kategorie', 'catégorie', 'categorie', 'categoría', 'categoria' ] },
+	{ key: 'schedule', label: __( 'Opening times (Mo-Fr 09:00-18:00)', 'softicon-store-locator' ), names: [ 'schedule', 'opening times schedule', 'opening hours specification', 'openinghours', 'opening hours spec', 'hours spec' ] },
 	{ key: 'hours', label: __( 'Opening hours', 'softicon-store-locator' ), names: [ 'hours', 'opening hours', 'opening times', 'open', 'business hours' ] },
 	{ key: 'lat', label: __( 'Latitude', 'softicon-store-locator' ), names: [ 'lat', 'latitude' ] },
 	{ key: 'lng', label: __( 'Longitude', 'softicon-store-locator' ), names: [ 'lng', 'lon', 'long', 'longitude' ] },
@@ -49,6 +54,12 @@ export const rowsToStores = ( rows, columns ) => rows.map( ( row ) => {
 			}
 		}
 	} );
+	// opening hours written as "Mo-Fr 09:00-18:00" also set the open/closed times
+	if ( store.schedule ) {
+		store.schedule = standard( store.schedule ) || store.schedule;
+	} else if ( standard( store.hours ) ) {
+		store.schedule = standard( store.hours );
+	}
 	return store;
 } ).filter( ( store ) => store.name || store.address || store.city );
 

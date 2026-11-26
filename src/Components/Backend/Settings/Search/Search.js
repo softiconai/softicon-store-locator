@@ -4,9 +4,11 @@ import { Panel, ToggleRow } from '../../../../vendor/softicon-tools/components/P
 import { radii } from '../../../../map/distance';
 import { distanceLabel } from '../../../../utils/options';
 import { categoryList } from '../../../../utils/category';
+import { hasHours, parseSchedule } from '../../../../utils/hours';
 
 const SearchPanel = ( { attributes, setAttributes, stores = [] } ) => {
-	const { search, geocodeSearch, nearMe, units, radius, directions, categoryFilter } = attributes;
+	const { search, geocodeSearch, nearMe, units, radius, directions, categoryFilter, openNow } = attributes;
+	const timed = stores.some( ( store ) => hasHours( parseSchedule( store.schedule ) ) );
 	const categories = categoryList( stores.map( ( store ) => store.category ) );
 	const set = ( key ) => ( value ) => setAttributes( { [ key ]: value } );
 	const unit = ( n ) => distanceLabel( n, units );
@@ -68,6 +70,21 @@ const SearchPanel = ( { attributes, setAttributes, stores = [] } ) => {
 				{ value: '', label: __( 'None', 'softicon-store-locator' ) },
 			] }
 			onChange={ set( 'categoryFilter' ) }
+			__nextHasNoMarginBottom
+			__next40pxDefaultSize
+		/>
+		<SelectControl
+			label={ __( 'Open now', 'softicon-store-locator' ) }
+			help={ timed
+				? __( 'A badge tells visitors whether each store is open, and the "Open now" button shows only the open ones. The times are in the site\'s time zone (Settings › General).', 'softicon-store-locator' )
+				: __( 'For stores with opening times: set them in each store\'s form, or in a CSV column called schedule.', 'softicon-store-locator' ) }
+			value={ openNow }
+			options={ [
+				{ value: 'filter', label: __( 'Badge and button', 'softicon-store-locator' ) },
+				{ value: 'badge', label: __( 'Badge only', 'softicon-store-locator' ) },
+				{ value: '', label: __( 'None', 'softicon-store-locator' ) },
+			] }
+			onChange={ set( 'openNow' ) }
 			__nextHasNoMarginBottom
 			__next40pxDefaultSize
 		/>

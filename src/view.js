@@ -33,24 +33,35 @@ const find = async ( el, config ) => {
 	}
 };
 
-// each store with a place gets its schema.org coordinates (render.php has no room for them)
-// and "Directions": a link to the route planner the block names, nothing is loaded
+// a <meta> for the store's schema.org microdata
+const meta = ( name, value ) => {
+	const tag = document.createElement( 'meta' );
+	tag.setAttribute( 'itemprop', name );
+	tag.content = value;
+	return tag;
+};
+
+// schema.org data render.php has no room for: the coordinates and the opening times (one rule per time span);
+// and "Directions" for each store with a place: a link to the route planner the block names, nothing is loaded
 const addPlaces = ( el, config ) => {
 	const route = Object.prototype.hasOwnProperty.call( routes, config.route ) && routes[ config.route ];
-	el.querySelectorAll( '.alsl_store[data-lat][data-lng]' ).forEach( ( item ) => {
-		if ( item.hasAttribute( 'itemscope' ) && ! item.querySelector( '[itemprop="geo"]' ) ) {
+	el.querySelectorAll( '.alsl_store[itemscope]:not([data-alsl-schema])' ).forEach( ( item ) => {
+		item.dataset.alslSchema = '';
+		if ( item.dataset.lat && item.dataset.lng ) {
 			const geo = Object.assign( document.createElement( 'span' ), { hidden: true } );
 			geo.setAttribute( 'itemprop', 'geo' );
 			geo.setAttribute( 'itemscope', '' );
 			geo.setAttribute( 'itemtype', 'https://schema.org/GeoCoordinates' );
-			[ [ 'latitude', item.dataset.lat ], [ 'longitude', item.dataset.lng ] ].forEach( ( [ name, value ] ) => {
-				const meta = document.createElement( 'meta' );
-				meta.setAttribute( 'itemprop', name );
-				meta.content = value;
-				geo.append( meta );
-			} );
+			geo.append( meta( 'latitude', item.dataset.lat ), meta( 'longitude', item.dataset.lng ) );
 			item.append( geo );
 		}
+		( item.dataset.open || '' ).split( ';' ).forEach( ( rule ) => {
+			const [ days, spans = '' ] = rule.trim().split( /\s+/ );
+			spans.split( ',' ).filter( ( span ) => /^(Mo|Tu|We|Th|Fr|Sa|Su)([-,](Mo|Tu|We|Th|Fr|Sa|Su))*$/.test( days ) && /^([01]\d|2[0-4]):[0-5]\d-([01]\d|2[0-4]):[0-5]\d$/.test( span ) )
+				.forEach( ( span ) => item.append( meta( 'openingHours', days + ' ' + span ) ) );
+		} );
+	} );
+	el.querySelectorAll( '.alsl_store[data-lat][data-lng]' ).forEach( ( item ) => {
 		const info = item.querySelector( '.alsl_info' );
 		if ( ! route || ! info || item.querySelector( '.alsl_route' ) ) {
 			return;
@@ -69,6 +80,22 @@ const addPlaces = ( el, config ) => {
 		links.append( link );
 	} );
 };
+
+// the open/closed badges, their own chunk: only for stores with opening times
+const showHours = async ( el, config ) => {
+	try {
+		const { default: hours } = await import( /* webpackChunkName: "hours" */ './map/hours' );
+		hours( el, config, text );
+	} catch ( error ) {
+		// eslint-disable-next-line no-console
+		console.error( 'SoftIcon Store Locator:', error );
+	}
+};
+
+const timed = ( el ) => el.querySelector( '.alsl_store[data-open]:not([data-open=""])' );
+
+// the "Open now" setting (openModeOf() in src/utils/hours.js, which stays in the lazy chunks)
+const openMode = ( config ) => ( [ 'filter', 'badge' ].includes( config.look?.openNow ) ? config.look.openNow : '' );
 
 const close = ( el ) => {
 	el.alsl?.destroy();
@@ -115,8 +142,10 @@ const askFirst = ( el, box, config ) => {
 	box.append( consent );
 };
 
-// the search box, or the category filter when the stores have two categories or more
-const wantsFinder = ( el, config ) => config.search || ( filterOf( config.cat ) && categoryList( [ ...el.querySelectorAll( '.alsl_store' ) ].map( ( item ) => item.dataset.cat ) ).length > 1 );
+// the search box, the category filter when the stores have two categories or more, or "Open now"
+const wantsFinder = ( el, config ) => config.search ||
+	( filterOf( config.cat ) && categoryList( [ ...el.querySelectorAll( '.alsl_store' ) ].map( ( item ) => item.dataset.cat ) ).length > 1 ) ||
+	( 'filter' === openMode( config ) && timed( el ) );
 
 // shows, updates or removes the map to match the block; the editor calls it again after every change
 const sync = ( el ) => {
@@ -169,6 +198,9 @@ const boot = () => {
 		// the editor's list and classes are React's: the block sets them itself
 		if ( config && ! config.editor ) {
 			addPlaces( el, config );
+			if ( openMode( config ) && timed( el ) ) {
+				showHours( el, config );
+			}
 			const look = lookOf( config.look );
 			el.classList.add( ...look.className.split( ' ' ) );
 			Object.entries( look.style ).forEach( ( [ name, value ] ) => el.style.setProperty( name, value ) );

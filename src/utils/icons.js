@@ -10,6 +10,7 @@ export const path = ( d ) => <SVG viewBox="0 0 24 24" xmlns="http://www.w3.org/2
 
 export const icons = {
 	add: path( 'M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z' ),
+	remove: path( 'M7.8 6.4 12 10.6l4.2-4.2 1.4 1.4-4.2 4.2 4.2 4.2-1.4 1.4-4.2-4.2-4.2 4.2-1.4-1.4 4.2-4.2-4.2-4.2z' ),
 	up: path( 'M12 7.5 5.5 14l1.4 1.4 5.1-5.1 5.1 5.1 1.4-1.4z' ),
 	down: path( 'M12 16.5 5.5 10l1.4-1.4 5.1 5.1 5.1-5.1 1.4 1.4z' ),
 	trash: path( 'M9 3h6l1 2h4v2H4V5h4zm-3 6h12l-1 12H7zm3 2 .5 8h1.5l-.5-8zm4.5 0-.5 8h1.5l.5-8z' ),

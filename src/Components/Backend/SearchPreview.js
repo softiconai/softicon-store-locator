@@ -1,9 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { distanceLabel } from '../../utils/options';
 import { categoryList, filterOf } from '../../utils/category';
+import { hasHours, openModeOf, parseSchedule } from '../../utils/hours';
 
 // the categories the page's filter would offer, or none
 export const filterCategories = ( attributes, stores ) => ( filterOf( attributes.categoryFilter ) ? categoryList( stores.map( ( store ) => store.category ) ) : [] );
+
+// the "Open now" button: on, and a store with opening times
+export const openFilterShown = ( attributes, stores ) => 'filter' === openModeOf( attributes.openNow ) && stores.some( ( store ) => hasHours( parseSchedule( store.schedule ) ) );
 
 // what the page's search (src/map/search.js) looks like; it does nothing in the editor, where React owns the list
 const SearchPreview = ( { attributes, stores } ) => {
@@ -15,6 +19,7 @@ const SearchPreview = ( { attributes, stores } ) => {
 	const unit = distanceLabel( first, units );
 	const categories = filterCategories( attributes, stores );
 	const all = __( 'All categories', 'softicon-store-locator' );
+	const open = openFilterShown( attributes, stores ) && <span className="alsl_chip alsl_open_only" aria-pressed="false">{ __( 'Open now', 'softicon-store-locator' ) }</span>;
 
 	return <div className="alsl_search" aria-hidden="true">
 		{ search && <>
@@ -31,7 +36,9 @@ const SearchPreview = ( { attributes, stores } ) => {
 			</select>
 			: <div className="alsl_cats">
 				{ [ all, ...categories ].map( ( name, i ) => <span key={ name } className="alsl_chip" aria-pressed={ String( ! i ) }>{ name }</span> ) }
+				{ open }
 			</div> ) }
+		{ ( categories.length < 2 || 'select' === categoryFilter ) && open }
 	</div>;
 };
 

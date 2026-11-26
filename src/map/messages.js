@@ -17,6 +17,14 @@ export const text = {
 	category: __( 'Category', 'softicon-store-locator' ),
 	allCategories: __( 'All categories', 'softicon-store-locator' ),
 	unplaced: __( 'No store in this category is on the map yet.', 'softicon-store-locator' ),
+	openNow: __( 'Open now', 'softicon-store-locator' ),
+	noneOpen: __( 'No store is open now.', 'softicon-store-locator' ),
+	// translators: %s: what the visitor searched for
+	filtered: ( query ) => sprintf( __( 'No store matches “%s” with the filters you chose.', 'softicon-store-locator' ), query ),
+	// translators: %s: a time, like 18:00 or Sat 8:00
+	openUntil: ( time ) => sprintf( __( 'Open until %s', 'softicon-store-locator' ), time ),
+	// translators: %s: a time, like 9:00 or Mon 9:00
+	opens: ( time ) => sprintf( __( 'Closed · opens %s', 'softicon-store-locator' ), time ),
 	searching: __( 'Searching…', 'softicon-store-locator' ),
 	locating: __( 'Finding your location…', 'softicon-store-locator' ),
 	you: __( 'your location', 'softicon-store-locator' ),

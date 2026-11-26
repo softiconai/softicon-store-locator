@@ -1,7 +1,7 @@
 // the editor's copy of Block::store() in includes/class-block.php: what the page will show for a store
 
 // one-line text fields of a store; the same list is in includes/class-block.php (TEXT)
-export const textFields = [ 'name', 'address', 'city', 'postcode', 'country', 'category' ];
+export const textFields = [ 'name', 'address', 'city', 'postcode', 'country', 'category', 'schedule' ];
 
 // like wp_strip_all_tags(): tags go, and so does what is inside script and style
 const strip = ( value ) => value.replace( /<(script|style)[^>]*?>[\s\S]*?<\/\1>/gi, '' ).replace( /<[^>]*>/g, '' );
