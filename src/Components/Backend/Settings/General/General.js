@@ -6,6 +6,7 @@ import { helpCards } from '../../../../utils/options';
 // the help cards, last in the sidebar
 export const Help = () => <Panel id="help" title={ __( 'Help', 'softicon-store-locator' ) }>
 	<HelpCards cards={ helpCards } />
+	<p className="alslHelp">{ __( 'Same stores on more pages? In the block toolbar choose ⋮ → Create pattern and keep Synced on. Add that pattern to any page; edit the stores once and every page changes.', 'softicon-store-locator' ) }</p>
 	<p className="alslHelp">{ __( 'Email:', 'softicon-store-locator' ) } <a href="mailto:softiconai@gmail.com">softiconai@gmail.com</a></p>
 </Panel>;
 

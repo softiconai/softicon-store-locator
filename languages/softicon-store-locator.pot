@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.2.0\n"
+"Project-Id-Version: SoftIcon Store Locator – Store Finder Map, No API Key 1.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-store-locator\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T12:46:37+00:00\n"
+"POT-Creation-Date: 2026-11-26T13:59:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-store-locator\n"
@@ -373,6 +373,10 @@ msgstr ""
 
 #: build/index.js:32
 msgid "Help"
+msgstr ""
+
+#: build/index.js:32
+msgid "Same stores on more pages? In the block toolbar choose ⋮ → Create pattern and keep Synced on. Add that pattern to any page; edit the stores once and every page changes."
 msgstr ""
 
 #: build/index.js:32

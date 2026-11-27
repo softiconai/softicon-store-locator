@@ -4,7 +4,7 @@ Tags: store locator, store finder, dealer locator, map, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,7 @@ https://www.youtube.com/watch?v=KFmGVqEHBQo
 * **Fast** – the map's code loads only on pages with the block, only when the block comes near the screen.
 * **Your layout and colors** – list left, right or below the map, or the map only; the map height; the starting zoom; marker, marker group and button colors; your own marker picture; and the background, text and link colors and text size from the block editor.
 * **Clusters** – stores close together are grouped into one numbered marker until visitors zoom in.
+* **One list, many pages** – save the block as a synced pattern and use it on as many pages as you like. Edit the stores once and every page changes.
 * **Phone friendly** – on phones the list goes under the map and the search field never makes the page zoom.
 
 = Privacy =
@@ -103,6 +104,10 @@ Place search is free but not perfect, especially for new streets or some countri
 
 Up to 500. For more, add a second Store Locator block, for example one per country.
 
+= Can I show the same stores on several pages? =
+
+Yes, with a synced pattern. Select the block, open the **⋮** menu in the block toolbar, choose **Create pattern**, give it a name and keep **Synced** on. Then add it to any page from the block inserter (**Patterns** → **My patterns**). To change the stores, select the pattern on any page and click **Edit original**: every page that uses it changes at once. The map, search, categories, Open now and the schema.org data work in every copy, even with two copies on one page.
+
 = Is it GDPR friendly? =
 
 It sets no cookies and tracks nothing. Turn on **Load the map on click** in the Map settings so nothing is loaded from OpenStreetMap until the visitor asks, and mention OpenStreetMap in your privacy policy. You can also turn off the place search for visitors. [See it in the video](https://www.youtube.com/watch?v=yX8TMUX9QKg&t=90s).
@@ -148,6 +153,9 @@ The geocoder must answer like Nominatim's `/search` (JSON) or Photon (GeoJSON).
 9. Setting a store's opening times on the weekly grid.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: show the same stores on several pages with a synced pattern. Tested with the map, search, categories, Open now and the schema.org data, also with two copies on one page. A tip in the block's Help panel and a new FAQ show how.
 
 = 1.2.0 =
 * New: opening times. Set each store's week on a simple grid (lunch breaks and times past midnight too), or import them from a CSV column.
